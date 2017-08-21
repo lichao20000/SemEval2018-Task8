@@ -1,0 +1,81 @@
+Together with the output of IDA Pro, we can see that this malware uses the command line tool cmd.exe for adding several registry keys to Internet Explorer.
+T2	Action 105 111	adding
+T5	Modifier 134 136	to
+T6	Object 137 154	Internet Explorer
+R3	ModObj Modifier:T5 Object:T6
+R4	ActionMod Action:T2 Modifier:T5
+T3	Object 112 133	several registry keys
+R2	ActionObj Action:T2 Object:T3
+T1	Subject 53 65	this malware
+R1	SubjAction Subject:T1 Action:T2
+R30	CoRefer Referer:T1 Canonical:T7
+R31	CoRefer Referer:T1 Canonical:T12
+R32	CoRefer Referer:T1 Canonical:T17
+
+It also tries to retrieve possible AntiVirus information by using the COM interface (dc12a687-737f-11cf-884d-00aa004b2e24 -> IWbemLocator -> SELECT * FROM AntiVirusProduct).
+T7	Subject 0 2	It
+T8	Action 17 25	retrieve
+R6	SubjAction Subject:T7 Action:T8
+T10	Modifier 57 59	by
+R8	ActionMod Action:T8 Modifier:T10
+T4	Object 26 56	possible AntiVirus information
+R5	ActionObj Action:T8 Object:T4
+T9	Object 60 83	using the COM interface
+R7	ModObj Modifier:T10 Object:T9
+
+Furthermore, it makes use of the COM to launch an instance of Internet Explorer (d30c1661-cdaf-11d0-8a3e-00c04fc9e26e -> IWebBrowser2), supposedly to contact its C&C server.
+T12	Subject 13 15	it
+T13	Action 40 46	launch
+R11	SubjAction Subject:T12 Action:T13
+T15	Action 150 157	contact
+R13	SubjAction Subject:T12 Action:T15
+T11	Object 47 79	an instance of Internet Explorer
+R9	ActionObj Action:T13 Object:T11
+T14	Object 158 172	its C&C server
+R10	ActionObj Action:T15 Object:T14
+
+Also, we see that it downloads some kind of data (Base64 encoded).
+T17	Subject 18 20	it
+T18	Action 21 30	downloads
+R17	SubjAction Subject:T17 Action:T18
+T16	Object 31 48	some kind of data
+R12	ActionObj Action:T18 Object:T16
+
+Once again, it creates several registry entries with the help of the command line tool and creates an instance of the Internet Explorer (CoCreateInstance() -> d30c1661-cdaf-11d0-8a3e- 00c04fc9e26e) for contacting the C&C server.
+T20	Subject 12 14	it
+T22	Action 15 22	creates
+T24	Action 91 98	creates
+R20	SubjAction Subject:T20 Action:T24
+R21	SubjAction Subject:T20 Action:T22
+T19	Object 23 47	several registry entries
+R14	ActionObj Action:T22 Object:T19
+T21	Modifier 48 52	with
+T23	Object 53 86	the help of the command line tool
+R15	ActionMod Action:T22 Modifier:T21
+R16	ModObj Modifier:T21 Object:T23
+T25	Object 99 135	an instance of the Internet Explorer
+R18	ActionObj Action:T24 Object:T25
+T36	Action 202 212	contacting
+T37	Object 213 227	the C&C server
+R19	SubjAction Subject:T20 Action:T36
+R22	ActionObj Action:T36 Object:T37
+
+From the code we can see, that the sample has also the ability to encode/decode data from/to Base64.
+T27	Action 66 72	encode
+T29	Modifier 85 89	from
+T31	Object 93 99	Base64
+R25	ModObj Modifier:T29 Object:T31
+T32	Object 80 84	data
+R27	ActionObj Action:T27 Object:T32
+R28	ActionMod Action:T27 Modifier:T29
+T26	Subject 31 41	the sample
+R26	SubjAction Subject:T26 Action:T27
+R29	CoRefer Referer:T26 Canonical:T28
+
+The dynamic analysis showed the malware sample contacted the C&C server, but wasn't sending any URL parameters (id1, id2).
+T34	Action 47 56	contacted
+T28	Subject 28 46	the malware sample
+R23	SubjAction Subject:T28 Action:T34
+T30	Object 57 71	the C&C server
+R24	ActionObj Action:T34 Object:T30
+
