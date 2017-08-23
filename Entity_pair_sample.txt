@@ -1,1347 +1,1563 @@
-0	1
-0	2
-0	3
-0	4
-1	2
-1	3
-1	4
-2	1
-2	3
-2	4
-3	1
-3	2
-3	4
-4	1
-4	2
-4	3
+On February 11 , FireEye identified a zero-day exploit ( CVE-2014-0322 ) being served up from the U.S. Veterans of Foreign Wars ' website ( vfw [ . ] org ) .
+0	1	TOKEN0,Entity	O
+0	2	TOKEN0,Action	O
+0	3	TOKEN0,Modifier	O
+1	2	Entity,Action	SubjAction
+1	2	Entity,Action	O
+1	3	Entity,Modifier	O
+1	4	Entity,Entity	O
+2	1	Action,Entity	ActionObj
+2	3	Action,Modifier	ActionMod
+2	4	Action,Entity	O
+3	1	Modifier,Entity	O
+3	4	Modifier,Entity	ModObj
+3	4	Modifier,Entity	O
+4	1	Entity,Entity	O
+4	2	Entity,Action	O
+4	3	Entity,Modifier	O
 
-0	1
-0	2
-0	3
-0	4
-0	5
-0	6
-1	2
-1	3
-1	4
-1	5
-1	6
-2	1
-2	3
-2	4
-2	5
-2	6
-3	1
-3	2
-3	4
-3	5
-3	6
-4	1
-4	2
-4	3
-4	5
-4	6
-5	1
-5	2
-5	3
-5	4
-5	6
-6	1
-6	2
-6	3
-6	4
-6	5
+We believe the attack is a strategic Web compromise targeting American military personnel amid a paralyzing snowstorm at the U.S. Capitol in the days leading up to the Presidents Day holiday weekend .
 
-0	1
-0	2
-0	3
-0	4
-0	5
-1	2
-1	3
-1	4
-1	5
-2	1
-2	3
-2	4
-2	5
-3	1
-3	2
-3	4
-3	5
-4	1
-4	2
-4	3
-4	5
-5	1
-5	2
-5	3
-5	4
+Based on infrastructure overlaps and tradecraft similarities , we believe the actors behind this campaign are associated with two previously identified campaigns ( Operation DeputyDog and Operation Ephemeral Hydra ) .
 
-0	1
-0	2
-0	3
-0	4
-0	5
-1	2
-1	3
-1	4
-1	5
-2	1
-2	3
-2	4
-2	5
-3	1
-3	2
-3	4
-3	5
-4	1
-4	2
-4	3
-4	5
-5	1
-5	2
-5	3
-5	4
+This blog post examines the vulnerability and associated attacks , which we have dubbed '' Operation SnowMan .
 
-0	1
-0	2
-0	3
-0	4
-0	5
-1	2
-1	3
-1	4
-1	5
-2	1
-2	3
-2	4
-2	5
-3	1
-3	2
-3	4
-3	5
-4	1
-4	2
-4	3
-4	5
-5	1
-5	2
-5	3
-5	4
+'' After compromising the VFW website , the attackers added an iframe into the beginning of the website's HTML code that loads the attacker 's page in the background .
 
-0	1
-0	2
-0	3
-0	4
-0	5
-0	6
-0	7
-0	8
-0	9
-1	2
-1	3
-1	4
-1	5
-1	6
-1	7
-1	8
-1	9
-2	1
-2	3
-2	4
-2	5
-2	6
-2	7
-2	8
-2	9
-3	1
-3	2
-3	4
-3	5
-3	6
-3	7
-3	8
-3	9
-4	1
-4	2
-4	3
-4	5
-4	6
-4	7
-4	8
-4	9
-5	1
-5	2
-5	3
-5	4
-5	6
-5	7
-5	8
-5	9
-6	1
-6	2
-6	3
-6	4
-6	5
-6	7
-6	8
-6	9
-7	1
-7	2
-7	3
-7	4
-7	5
-7	6
-7	8
-7	9
-8	1
-8	2
-8	3
-8	4
-8	5
-8	6
-8	7
-8	9
-9	1
-9	2
-9	3
-9	4
-9	5
-9	6
-9	7
-9	8
+The attacker 's HTML/JavaScript page runs a Flash object , which orchestrates the remainder of the exploit .
 
-0	1
-0	2
-0	3
-0	4
-0	5
-0	6
-0	7
-1	2
-1	3
-1	4
-1	5
-1	6
-1	7
-2	1
-2	3
-2	4
-2	5
-2	6
-2	7
-3	1
-3	2
-3	4
-3	5
-3	6
-3	7
-4	1
-4	2
-4	3
-4	5
-4	6
-4	7
-5	1
-5	2
-5	3
-5	4
-5	6
-5	7
-6	1
-6	2
-6	3
-6	4
-6	5
-6	7
-7	1
-7	2
-7	3
-7	4
-7	5
-7	6
+The exploit includes calling back to the IE 10 vulnerability trigger , which is embedded in the JavaScript .
 
-0	1
-0	2
-0	3
-0	4
-0	5
-0	6
-0	7
-0	8
-0	9
-1	2
-1	3
-1	4
-1	5
-1	6
-1	7
-1	8
-1	9
-2	1
-2	3
-2	4
-2	5
-2	6
-2	7
-2	8
-2	9
-3	1
-3	2
-3	4
-3	5
-3	6
-3	7
-3	8
-3	9
-4	1
-4	2
-4	3
-4	5
-4	6
-4	7
-4	8
-4	9
-5	1
-5	2
-5	3
-5	4
-5	6
-5	7
-5	8
-5	9
-6	1
-6	2
-6	3
-6	4
-6	5
-6	7
-6	8
-6	9
-7	1
-7	2
-7	3
-7	4
-7	5
-7	6
-7	8
-7	9
-8	1
-8	2
-8	3
-8	4
-8	5
-8	6
-8	7
-8	9
-9	1
-9	2
-9	3
-9	4
-9	5
-9	6
-9	7
-9	8
+Specifically , visitors to the VFW website were silently redirected through an iframe to the exploit at www. [ REDACTED ] .com/Data/img/img.html .
+0	1	TOKEN0,Entity	O
+0	2	TOKEN0,Action	O
+0	3	TOKEN0,Modifier	O
+0	4	TOKEN0,Entity	O
+0	5	TOKEN0,Modifier	O
+1	2	Entity,Action	SubjAction
+1	2	Entity,Action	O
+1	3	Entity,Modifier	O
+1	4	Entity,Entity	O
+1	5	Entity,Modifier	O
+1	6	Entity,Entity	O
+2	1	Action,Entity	ActionObj
+2	3	Action,Modifier	ActionMod
+2	4	Action,Entity	O
+2	5	Action,Modifier	O
+2	6	Action,Entity	O
+3	1	Modifier,Entity	O
+3	4	Modifier,Entity	ModObj
+3	4	Modifier,Entity	O
+3	5	Modifier,Modifier	O
+3	6	Modifier,Entity	O
+4	1	Entity,Entity	O
+4	2	Entity,Action	O
+4	3	Entity,Modifier	O
+4	5	Entity,Modifier	O
+4	6	Entity,Entity	O
+5	1	Modifier,Entity	O
+5	2	Modifier,Action	O
+5	3	Modifier,Modifier	O
+5	6	Modifier,Entity	ModObj
+5	6	Modifier,Entity	O
+6	1	Entity,Entity	O
+6	2	Entity,Action	O
+6	3	Entity,Modifier	O
+6	4	Entity,Entity	O
+6	5	Entity,Modifier	O
 
-0	1
-0	2
-0	3
-1	2
-1	3
-2	1
-2	3
-3	1
-3	2
+The exploit targets IE 10 with Adobe Flash .
 
-0	1
-0	2
-0	3
-0	4
-1	2
-1	3
-1	4
-2	1
-2	3
-2	4
-3	1
-3	2
-3	4
-4	1
-4	2
-4	3
+It aborts exploitation if the user is browsing with a different version of IE or has installed Microsoft 's Experience Mitigation Toolkit ( EMET ) .
+0	1	TOKEN0,Entity	O
+0	2	TOKEN0,Action	O
+0	3	TOKEN0,Entity	O
+0	4	TOKEN0,Modifier	O
+1	2	Entity,Action	SubjAction
+1	2	Entity,Action	O
+1	3	Entity,Entity	O
+1	4	Entity,Modifier	O
+1	5	Entity,Entity	O
+2	1	Action,Entity	ActionObj
+2	3	Action,Entity	ActionObj
+2	4	Action,Modifier	O
+2	5	Action,Entity	O
+3	1	Entity,Entity	O
+3	2	Entity,Action	O
+3	4	Entity,Modifier	O
+3	5	Entity,Entity	O
+4	1	Modifier,Entity	O
+4	2	Modifier,Action	O
+4	5	Modifier,Entity	ModObj
+4	5	Modifier,Entity	O
+5	1	Entity,Entity	O
+5	2	Entity,Action	O
+5	3	Entity,Entity	O
+5	4	Entity,Modifier	O
 
-0	1
-0	2
-0	3
-0	4
-1	2
-1	3
-1	4
-2	1
-2	3
-2	4
-3	1
-3	2
-3	4
-4	1
-4	2
-4	3
+So installing EMET or updating to IE 11 prevents this exploit from functioning .
 
-0	1
-0	2
-0	3
-0	4
-1	2
-1	3
-1	4
-2	1
-2	3
-2	4
-3	1
-3	2
-3	4
-4	1
-4	2
-4	3
+The vulnerability is a previously unknown use-after-free bug in Microsoft Internet Explorer 10 .
 
-0	1
-0	2
-0	3
-0	4
-0	5
-1	2
-1	3
-1	4
-1	5
-2	1
-2	3
-2	4
-2	5
-3	1
-3	2
-3	4
-3	5
-4	1
-4	2
-4	3
-4	5
-5	1
-5	2
-5	3
-5	4
+The vulnerability allows the attacker to modify one byte of memory at an arbitrary address .
+0	1	TOKEN0,Entity	O
+0	2	TOKEN0,Action	O
+0	3	TOKEN0,Entity	O
+0	4	TOKEN0,Modifier	O
+1	2	Entity,Action	SubjAction
+1	2	Entity,Action	O
+1	3	Entity,Entity	O
+1	4	Entity,Modifier	O
+1	5	Entity,Entity	O
+2	1	Action,Entity	ActionObj
+2	3	Action,Entity	ActionObj
+2	4	Action,Modifier	O
+2	5	Action,Entity	O
+3	1	Entity,Entity	O
+3	2	Entity,Action	O
+3	4	Entity,Modifier	O
+3	5	Entity,Entity	O
+4	1	Modifier,Entity	O
+4	2	Modifier,Action	O
+4	5	Modifier,Entity	ModObj
+4	5	Modifier,Entity	O
+5	1	Entity,Entity	O
+5	2	Entity,Action	O
+5	3	Entity,Entity	O
+5	4	Entity,Modifier	O
 
-0	1
-0	2
-0	3
-1	2
-1	3
-2	1
-2	3
-3	1
-3	2
+The attacker uses the vulnerability to do the following : The attacker uses the Microsoft.XMLDOM ActiveX control to load a one-line XML string containing a file path to the EMET DLL .
+0	1	TOKEN0,Entity	O
+0	2	TOKEN0,Action	O
+0	3	TOKEN0,Entity	O
+0	4	TOKEN0,Modifier	O
+1	2	Entity,Action	SubjAction
+1	2	Entity,Action	O
+1	3	Entity,Entity	O
+1	4	Entity,Modifier	O
+1	5	Entity,Entity	O
+2	1	Action,Entity	ActionObj
+2	3	Action,Entity	ActionObj
+2	4	Action,Modifier	O
+2	5	Action,Entity	O
+3	1	Entity,Entity	O
+3	2	Entity,Action	O
+3	4	Entity,Modifier	O
+3	5	Entity,Entity	O
+4	1	Modifier,Entity	O
+4	2	Modifier,Action	O
+4	5	Modifier,Entity	ModObj
+4	5	Modifier,Entity	O
+5	1	Entity,Entity	O
+5	2	Entity,Action	O
+5	3	Entity,Entity	O
+5	4	Entity,Modifier	O
 
-0	1
-0	2
-0	3
-0	4
-1	2
-1	3
-1	4
-2	1
-2	3
-2	4
-3	1
-3	2
-3	4
-4	1
-4	2
-4	3
+Then the exploit code parses the error resulting from the XML load order to determine whether the load failed because the EMET DLL is not present .
 
-0	1
-0	2
-0	3
-0	4
-1	2
-1	3
-1	4
-2	1
-2	3
-2	4
-3	1
-3	2
-3	4
-4	1
-4	2
-4	3
+The exploit proceeds only if this check determines that the EMET DLL is not present .
 
-0	1
-0	2
-0	3
-0	4
-1	2
-1	3
-1	4
-2	1
-2	3
-2	4
-3	1
-3	2
-3	4
-4	1
-4	2
-4	3
+Because the vulnerability allows attackers to modify memory to an arbitrary address , the attacker can use it to bypass ASLR .
+0	1	TOKEN0,Entity	O
+0	2	TOKEN0,Action	O
+0	3	TOKEN0,Entity	O
+0	4	TOKEN0,Modifier	O
+0	5	TOKEN0,Entity	O
+0	6	TOKEN0,Action	O
+0	7	TOKEN0,Entity	O
+0	8	TOKEN0,Modifier	O
+1	2	Entity,Action	SubjAction
+1	2	Entity,Action	O
+1	3	Entity,Entity	O
+1	4	Entity,Modifier	O
+1	5	Entity,Entity	O
+1	6	Entity,Action	O
+1	7	Entity,Entity	O
+1	8	Entity,Modifier	O
+1	9	Entity,Entity	O
+2	1	Action,Entity	ActionObj
+2	3	Action,Entity	ActionObj
+2	4	Action,Modifier	O
+2	5	Action,Entity	O
+2	6	Action,Action	O
+2	7	Action,Entity	O
+2	8	Action,Modifier	O
+2	9	Action,Entity	O
+3	1	Entity,Entity	O
+3	2	Entity,Action	O
+3	4	Entity,Modifier	O
+3	5	Entity,Entity	O
+3	6	Entity,Action	O
+3	7	Entity,Entity	O
+3	8	Entity,Modifier	O
+3	9	Entity,Entity	O
+4	1	Modifier,Entity	O
+4	2	Modifier,Action	O
+4	5	Modifier,Entity	ModObj
+4	5	Modifier,Entity	O
+4	6	Modifier,Action	O
+4	7	Modifier,Entity	O
+4	8	Modifier,Modifier	O
+4	9	Modifier,Entity	O
+5	1	Entity,Entity	O
+5	2	Entity,Action	O
+5	3	Entity,Entity	O
+5	6	Entity,Action	SubjAction
+5	6	Entity,Action	O
+5	7	Entity,Entity	O
+5	8	Entity,Modifier	O
+5	9	Entity,Entity	O
+6	1	Action,Entity	O
+6	2	Action,Action	O
+6	3	Action,Entity	O
+6	4	Action,Modifier	O
+6	5	Action,Entity	ActionObj
+6	7	Action,Entity	ActionObj
+6	8	Action,Modifier	O
+6	9	Action,Entity	O
+7	1	Entity,Entity	O
+7	2	Entity,Action	O
+7	3	Entity,Entity	O
+7	4	Entity,Modifier	O
+7	5	Entity,Entity	O
+7	6	Entity,Action	O
+7	8	Entity,Modifier	O
+7	9	Entity,Entity	O
+8	1	Modifier,Entity	O
+8	2	Modifier,Action	O
+8	3	Modifier,Entity	O
+8	4	Modifier,Modifier	O
+8	5	Modifier,Entity	O
+8	6	Modifier,Action	O
+8	9	Modifier,Entity	ModObj
+8	9	Modifier,Entity	O
+9	1	Entity,Entity	O
+9	2	Entity,Action	O
+9	3	Entity,Entity	O
+9	4	Entity,Modifier	O
+9	5	Entity,Entity	O
+9	6	Entity,Action	O
+9	7	Entity,Entity	O
+9	8	Entity,Modifier	O
 
-0	1
-0	2
-0	3
-0	4
-1	2
-1	3
-1	4
-2	1
-2	3
-2	4
-3	1
-3	2
-3	4
-4	1
-4	2
-4	3
+For example , the attacker corrupts a Flash Vector object and then accesses the corrupted object from within Flash to access memory .
 
-0	1
-0	2
-0	3
-1	2
-1	3
-2	1
-2	3
-3	1
-3	2
+We have discussed this technique and other ASLR bypass approaches in our blog .
 
-0	1
-0	2
-0	3
-0	4
-0	5
-0	6
-0	7
-1	2
-1	3
-1	4
-1	5
-1	6
-1	7
-2	1
-2	3
-2	4
-2	5
-2	6
-2	7
-3	1
-3	2
-3	4
-3	5
-3	6
-3	7
-4	1
-4	2
-4	3
-4	5
-4	6
-4	7
-5	1
-5	2
-5	3
-5	4
-5	6
-5	7
-6	1
-6	2
-6	3
-6	4
-6	5
-6	7
-7	1
-7	2
-7	3
-7	4
-7	5
-7	6
+One minor difference between the previous approaches and this attack is the heap spray address , which was changed to 0x1a1b2000 in this exploit .
 
-0	1
-0	2
-0	3
-1	2
-1	3
-2	1
-2	3
-3	1
-3	2
+Once the attacker 's code has full memory access through the corrupted Flash Vector object , the code searches through loaded libraries gadgets by machine code .
+0	1	TOKEN0,Modifier	O
+0	2	TOKEN0,Entity	O
+0	3	TOKEN0,Action	O
+0	4	TOKEN0,Modifier	O
+0	5	TOKEN0,Entity	O
+0	6	TOKEN0,Modifier	O
+1	2	Modifier,Entity	ModObj
+1	2	Modifier,Entity	O
+1	3	Modifier,Action	O
+1	4	Modifier,Modifier	O
+1	5	Modifier,Entity	O
+1	6	Modifier,Modifier	O
+1	7	Modifier,Entity	O
+2	3	Entity,Action	SubjAction
+2	3	Entity,Action	O
+2	4	Entity,Modifier	O
+2	5	Entity,Entity	O
+2	6	Entity,Modifier	O
+2	7	Entity,Entity	O
+3	1	Action,Modifier	O
+3	2	Action,Entity	ActionObj
+3	4	Action,Modifier	ActionMod
+3	5	Action,Entity	O
+3	6	Action,Modifier	O
+3	7	Action,Entity	O
+4	1	Modifier,Modifier	O
+4	2	Modifier,Entity	O
+4	5	Modifier,Entity	ModObj
+4	5	Modifier,Entity	O
+4	6	Modifier,Modifier	O
+4	7	Modifier,Entity	O
+5	1	Entity,Modifier	O
+5	2	Entity,Entity	O
+5	3	Entity,Action	O
+5	4	Entity,Modifier	O
+5	6	Entity,Modifier	O
+5	7	Entity,Entity	O
+6	1	Modifier,Modifier	O
+6	2	Modifier,Entity	O
+6	3	Modifier,Action	O
+6	4	Modifier,Modifier	O
+6	7	Modifier,Entity	ModObj
+6	7	Modifier,Entity	O
+7	1	Entity,Modifier	O
+7	2	Entity,Entity	O
+7	3	Entity,Action	O
+7	4	Entity,Modifier	O
+7	5	Entity,Entity	O
+7	6	Entity,Modifier	O
 
-0	1
-0	2
-0	3
-0	4
-0	5
-0	6
-0	7
-0	8
-0	9
-1	2
-1	3
-1	4
-1	5
-1	6
-1	7
-1	8
-1	9
-2	1
-2	3
-2	4
-2	5
-2	6
-2	7
-2	8
-2	9
-3	1
-3	2
-3	4
-3	5
-3	6
-3	7
-3	8
-3	9
-4	1
-4	2
-4	3
-4	5
-4	6
-4	7
-4	8
-4	9
-5	1
-5	2
-5	3
-5	4
-5	6
-5	7
-5	8
-5	9
-6	1
-6	2
-6	3
-6	4
-6	5
-6	7
-6	8
-6	9
-7	1
-7	2
-7	3
-7	4
-7	5
-7	6
-7	8
-7	9
-8	1
-8	2
-8	3
-8	4
-8	5
-8	6
-8	7
-8	9
-9	1
-9	2
-9	3
-9	4
-9	5
-9	6
-9	7
-9	8
+The attacker then overwrites the vftable pointer of a flash.Media.Sound ( ) object in memory to point to the pivot and begin ROP .
+0	1	TOKEN0,Entity	O
+0	2	TOKEN0,Action	O
+0	3	TOKEN0,Entity	O
+0	4	TOKEN0,Modifier	O
+0	5	TOKEN0,Entity	O
+0	6	TOKEN0,Modifier	O
+0	7	TOKEN0,Entity	O
+0	8	TOKEN0,Action	O
+1	2	Entity,Action	SubjAction
+1	2	Entity,Action	O
+1	3	Entity,Entity	O
+1	4	Entity,Modifier	O
+1	5	Entity,Entity	O
+1	6	Entity,Modifier	O
+1	7	Entity,Entity	O
+1	8	Entity,Action	O
+1	9	Entity,Entity	O
+2	1	Action,Entity	ActionObj
+2	3	Action,Entity	ActionObj
+2	4	Action,Modifier	O
+2	5	Action,Entity	O
+2	6	Action,Modifier	O
+2	7	Action,Entity	O
+2	8	Action,Action	O
+2	9	Action,Entity	O
+3	1	Entity,Entity	O
+3	2	Entity,Action	O
+3	4	Entity,Modifier	O
+3	5	Entity,Entity	O
+3	6	Entity,Modifier	O
+3	7	Entity,Entity	O
+3	8	Entity,Action	O
+3	9	Entity,Entity	O
+4	1	Modifier,Entity	O
+4	2	Modifier,Action	O
+4	5	Modifier,Entity	ModObj
+4	5	Modifier,Entity	O
+4	6	Modifier,Modifier	O
+4	7	Modifier,Entity	O
+4	8	Modifier,Action	O
+4	9	Modifier,Entity	O
+5	1	Entity,Entity	O
+5	2	Entity,Action	O
+5	3	Entity,Entity	O
+5	4	Entity,Modifier	O
+5	6	Entity,Modifier	O
+5	7	Entity,Entity	O
+5	8	Entity,Action	O
+5	9	Entity,Entity	O
+6	1	Modifier,Entity	O
+6	2	Modifier,Action	O
+6	3	Modifier,Entity	O
+6	4	Modifier,Modifier	O
+6	7	Modifier,Entity	ModObj
+6	7	Modifier,Entity	O
+6	8	Modifier,Action	O
+6	9	Modifier,Entity	O
+7	1	Entity,Entity	O
+7	2	Entity,Action	O
+7	3	Entity,Entity	O
+7	4	Entity,Modifier	O
+7	5	Entity,Entity	O
+7	8	Entity,Action	SubjAction
+7	8	Entity,Action	O
+7	9	Entity,Entity	O
+8	1	Action,Entity	O
+8	2	Action,Action	O
+8	3	Action,Entity	O
+8	4	Action,Modifier	O
+8	5	Action,Entity	O
+8	6	Action,Modifier	O
+8	7	Action,Entity	ActionObj
+8	9	Action,Entity	O
+9	1	Entity,Entity	O
+9	2	Entity,Action	O
+9	3	Entity,Entity	O
+9	4	Entity,Modifier	O
+9	5	Entity,Entity	O
+9	6	Entity,Modifier	O
+9	7	Entity,Entity	O
+9	8	Entity,Action	O
 
-0	1
-0	2
-0	3
-1	2
-1	3
-2	1
-2	3
-3	1
-3	2
+After successful exploitation , the code repairs the corrupted Flash Vector and flash.Media.Sound to continue execution .
 
-0	1
-0	2
-0	3
-0	4
-0	5
-0	6
-0	7
-1	2
-1	3
-1	4
-1	5
-1	6
-1	7
-2	1
-2	3
-2	4
-2	5
-2	6
-2	7
-3	1
-3	2
-3	4
-3	5
-3	6
-3	7
-4	1
-4	2
-4	3
-4	5
-4	6
-4	7
-5	1
-5	2
-5	3
-5	4
-5	6
-5	7
-6	1
-6	2
-6	3
-6	4
-6	5
-6	7
-7	1
-7	2
-7	3
-7	4
-7	5
-7	6
+Subsequently , the malicious Flash code downloads a file containing the dropped malware payload .
+0	1	TOKEN0,Entity	O
+0	2	TOKEN0,Action	O
+1	2	Entity,Action	SubjAction
+1	2	Entity,Action	O
+1	3	Entity,Entity	O
+2	1	Action,Entity	ActionObj
+2	3	Action,Entity	O
+3	1	Entity,Entity	O
+3	2	Entity,Action	O
 
-0	1
-0	2
-0	3
-0	4
-0	5
-1	2
-1	3
-1	4
-1	5
-2	1
-2	3
-2	4
-2	5
-3	1
-3	2
-3	4
-3	5
-4	1
-4	2
-4	3
-4	5
-5	1
-5	2
-5	3
-5	4
+The beginning of the file is a JPG image ; the end of the file ( offset 36321 ) is the payload , encoded with an XOR key of 0×95 .
 
-0	1
-0	2
-0	3
-0	4
-1	2
-1	3
-1	4
-2	1
-2	3
-2	4
-3	1
-3	2
-3	4
-4	1
-4	2
-4	3
+The attacker appends the payload to the shellcode before pivoting to code control .
 
-0	1
-0	2
-0	3
-0	4
-0	5
-1	2
-1	3
-1	4
-1	5
-2	1
-2	3
-2	4
-2	5
-3	1
-3	2
-3	4
-3	5
-4	1
-4	2
-4	3
-4	5
-5	1
-5	2
-5	3
-5	4
+Then , when the shellcode is executed , the malware creates files '' sqlrenew.txt '' and '' stream.exe '' .
+0	1	TOKEN0,Modifier	O
+0	2	TOKEN0,Entity	O
+0	3	TOKEN0,Action	O
+1	2	Modifier,Entity	ModObj
+1	2	Modifier,Entity	O
+1	3	Modifier,Action	O
+1	4	Modifier,Entity	O
+2	3	Entity,Action	SubjAction
+2	3	Entity,Action	O
+2	4	Entity,Entity	O
+3	1	Action,Modifier	O
+3	2	Action,Entity	ActionObj
+3	4	Action,Entity	O
+4	1	Entity,Modifier	O
+4	2	Entity,Entity	O
+4	3	Entity,Action	O
 
-0	1
-0	2
-0	3
-0	4
-1	2
-1	3
-1	4
-2	1
-2	3
-2	4
-3	1
-3	2
-3	4
-4	1
-4	2
-4	3
+The tail of the image file is decoded , and written to these files .
+0	1	TOKEN0,Entity	O
+0	2	TOKEN0,Action	O
+0	3	TOKEN0,Modifier	O
+1	2	Entity,Action	SubjAction
+1	2	Entity,Action	O
+1	3	Entity,Modifier	O
+1	4	Entity,Entity	O
+2	1	Action,Entity	ActionObj
+2	3	Action,Modifier	ActionMod
+2	4	Action,Entity	O
+3	1	Modifier,Entity	O
+3	4	Modifier,Entity	ModObj
+3	4	Modifier,Entity	O
+4	1	Entity,Entity	O
+4	2	Entity,Action	O
+4	3	Entity,Modifier	O
 
-0	1
-0	2
-0	3
-0	4
-0	5
-0	6
-1	2
-1	3
-1	4
-1	5
-1	6
-2	1
-2	3
-2	4
-2	5
-2	6
-3	1
-3	2
-3	4
-3	5
-3	6
-4	1
-4	2
-4	3
-4	5
-4	6
-5	1
-5	2
-5	3
-5	4
-5	6
-6	1
-6	2
-6	3
-6	4
-6	5
+'' sqlrenew.txt '' is then executed with the LoadLibraryA Windows API call .
+0	1	TOKEN0,Entity	O
+0	2	TOKEN0,Action	O
+0	3	TOKEN0,Modifier	O
+1	2	Entity,Action	SubjAction
+1	2	Entity,Action	O
+1	3	Entity,Modifier	O
+1	4	Entity,Entity	O
+2	1	Action,Entity	ActionObj
+2	3	Action,Modifier	ActionMod
+2	4	Action,Entity	O
+3	1	Modifier,Entity	O
+3	4	Modifier,Entity	ModObj
+3	4	Modifier,Entity	O
+4	1	Entity,Entity	O
+4	2	Entity,Action	O
+4	3	Entity,Modifier	O
 
-0	1
-0	2
-0	3
-0	4
-0	5
-0	6
-0	7
-0	8
-0	9
-0	10
-0	11
-0	12
-0	13
-0	14
-0	15
-0	16
-1	2
-1	3
-1	4
-1	5
-1	6
-1	7
-1	8
-1	9
-1	10
-1	11
-1	12
-1	13
-1	14
-1	15
-1	16
-2	1
-2	3
-2	4
-2	5
-2	6
-2	7
-2	8
-2	9
-2	10
-2	11
-2	12
-2	13
-2	14
-2	15
-2	16
-3	1
-3	2
-3	4
-3	5
-3	6
-3	7
-3	8
-3	9
-3	10
-3	11
-3	12
-3	13
-3	14
-3	15
-3	16
-4	1
-4	2
-4	3
-4	5
-4	6
-4	7
-4	8
-4	9
-4	10
-4	11
-4	12
-4	13
-4	14
-4	15
-4	16
-5	1
-5	2
-5	3
-5	4
-5	6
-5	7
-5	8
-5	9
-5	10
-5	11
-5	12
-5	13
-5	14
-5	15
-5	16
-6	1
-6	2
-6	3
-6	4
-6	5
-6	7
-6	8
-6	9
-6	10
-6	11
-6	12
-6	13
-6	14
-6	15
-6	16
-7	1
-7	2
-7	3
-7	4
-7	5
-7	6
-7	8
-7	9
-7	10
-7	11
-7	12
-7	13
-7	14
-7	15
-7	16
-8	1
-8	2
-8	3
-8	4
-8	5
-8	6
-8	7
-8	9
-8	10
-8	11
-8	12
-8	13
-8	14
-8	15
-8	16
-9	1
-9	2
-9	3
-9	4
-9	5
-9	6
-9	7
-9	8
-9	10
-9	11
-9	12
-9	13
-9	14
-9	15
-9	16
-10	1
-10	2
-10	3
-10	4
-10	5
-10	6
-10	7
-10	8
-10	9
-10	11
-10	12
-10	13
-10	14
-10	15
-10	16
-11	1
-11	2
-11	3
-11	4
-11	5
-11	6
-11	7
-11	8
-11	9
-11	10
-11	12
-11	13
-11	14
-11	15
-11	16
-12	1
-12	2
-12	3
-12	4
-12	5
-12	6
-12	7
-12	8
-12	9
-12	10
-12	11
-12	13
-12	14
-12	15
-12	16
-13	1
-13	2
-13	3
-13	4
-13	5
-13	6
-13	7
-13	8
-13	9
-13	10
-13	11
-13	12
-13	14
-13	15
-13	16
-14	1
-14	2
-14	3
-14	4
-14	5
-14	6
-14	7
-14	8
-14	9
-14	10
-14	11
-14	12
-14	13
-14	15
-14	16
-15	1
-15	2
-15	3
-15	4
-15	5
-15	6
-15	7
-15	8
-15	9
-15	10
-15	11
-15	12
-15	13
-15	14
-15	16
-16	1
-16	2
-16	3
-16	4
-16	5
-16	6
-16	7
-16	8
-16	9
-16	10
-16	11
-16	12
-16	13
-16	14
-16	15
+As documented above , this exploit dropped an XOR ( 0×95 ) payload that executed a ZxShell backdoor ( MD5 : 8455bbb9a210ce603a1b646b0d951bce ) .
+0	1	TOKEN0,Entity	O
+0	2	TOKEN0,Action	O
+0	3	TOKEN0,Entity	O
+0	4	TOKEN0,Action	O
+1	2	Entity,Action	SubjAction
+1	2	Entity,Action	O
+1	3	Entity,Entity	O
+1	4	Entity,Action	O
+1	5	Entity,Entity	O
+2	1	Action,Entity	ActionObj
+2	3	Action,Entity	ActionObj
+2	4	Action,Action	O
+2	5	Action,Entity	O
+3	1	Entity,Entity	O
+3	4	Entity,Action	SubjAction
+3	4	Entity,Action	O
+3	5	Entity,Entity	O
+4	1	Action,Entity	O
+4	2	Action,Action	O
+4	3	Action,Entity	ActionObj
+4	5	Action,Entity	O
+5	1	Entity,Entity	O
+5	2	Entity,Action	O
+5	3	Entity,Entity	O
+5	4	Entity,Action	O
 
-0	1
-0	2
-0	3
-0	4
-1	2
-1	3
-1	4
-2	1
-2	3
-2	4
-3	1
-3	2
-3	4
-4	1
-4	2
-4	3
+The compile date of the payload was 2014-02-11 , and the last modified date of the exploit code was also 2014-02-11 .
 
-0	1
-0	2
-0	3
-0	4
-0	5
-0	6
-0	7
-0	8
-0	9
-1	2
-1	3
-1	4
-1	5
-1	6
-1	7
-1	8
-1	9
-2	1
-2	3
-2	4
-2	5
-2	6
-2	7
-2	8
-2	9
-3	1
-3	2
-3	4
-3	5
-3	6
-3	7
-3	8
-3	9
-4	1
-4	2
-4	3
-4	5
-4	6
-4	7
-4	8
-4	9
-5	1
-5	2
-5	3
-5	4
-5	6
-5	7
-5	8
-5	9
-6	1
-6	2
-6	3
-6	4
-6	5
-6	7
-6	8
-6	9
-7	1
-7	2
-7	3
-7	4
-7	5
-7	6
-7	8
-7	9
-8	1
-8	2
-8	3
-8	4
-8	5
-8	6
-8	7
-8	9
-9	1
-9	2
-9	3
-9	4
-9	5
-9	6
-9	7
-9	8
+This suggests that this instantiation of the exploit was very recent and was deployed for this specific strategic Web compromise of the Veterans of Foreign Wars website .
 
-0	1
-0	2
-0	3
-1	2
-1	3
-2	1
-2	3
-3	1
-3	2
+A possible objective in the SnowMan attack is targeting military service members to steal military intelligence .
 
-0	1
-0	2
-0	3
-0	4
-1	2
-1	3
-1	4
-2	1
-2	3
-2	4
-3	1
-3	2
-3	4
-4	1
-4	2
-4	3
+In addition to retirees , active military personnel use the VFW website .
 
-0	1
-0	2
-0	3
-0	4
-1	2
-1	3
-1	4
-2	1
-2	3
-2	4
-3	1
-3	2
-3	4
-4	1
-4	2
-4	3
+It is probably no coincidence that Monday , Feb. 17 , is a U.S. holiday , and much of the U.S. Capitol shut down Thursday amid a severe winter storm .
 
-0	1
-0	2
-0	3
-0	4
-0	5
-0	6
-0	7
-0	8
-0	9
-0	10
-1	2
-1	3
-1	4
-1	5
-1	6
-1	7
-1	8
-1	9
-1	10
-2	1
-2	3
-2	4
-2	5
-2	6
-2	7
-2	8
-2	9
-2	10
-3	1
-3	2
-3	4
-3	5
-3	6
-3	7
-3	8
-3	9
-3	10
-4	1
-4	2
-4	3
-4	5
-4	6
-4	7
-4	8
-4	9
-4	10
-5	1
-5	2
-5	3
-5	4
-5	6
-5	7
-5	8
-5	9
-5	10
-6	1
-6	2
-6	3
-6	4
-6	5
-6	7
-6	8
-6	9
-6	10
-7	1
-7	2
-7	3
-7	4
-7	5
-7	6
-7	8
-7	9
-7	10
-8	1
-8	2
-8	3
-8	4
-8	5
-8	6
-8	7
-8	9
-8	10
-9	1
-9	2
-9	3
-9	4
-9	5
-9	6
-9	7
-9	8
-9	10
-10	1
-10	2
-10	3
-10	4
-10	5
-10	6
-10	7
-10	8
-10	9
+The ZxShell backdoor is a widely used and publicly available tool used by multiple threat actors linked to cyber espionage operations .
+0	1	TOKEN0,Entity	O
+0	2	TOKEN0,Action	O
+1	2	Entity,Action	SubjAction
+1	2	Entity,Action	O
+1	3	Entity,Entity	O
+2	1	Action,Entity	ActionObj
+2	3	Action,Entity	O
+3	1	Entity,Entity	O
+3	2	Entity,Action	O
+
+This particular variant called back to a command and control server located at newss [ . ] effers [ . ] com .
+0	1	TOKEN0,Entity	O
+0	2	TOKEN0,Action	O
+0	3	TOKEN0,Modifier	O
+1	2	Entity,Action	SubjAction
+1	2	Entity,Action	O
+1	3	Entity,Modifier	O
+1	4	Entity,Entity	O
+2	1	Action,Entity	ActionObj
+2	3	Action,Modifier	ActionMod
+2	4	Action,Entity	O
+3	1	Modifier,Entity	O
+3	4	Modifier,Entity	ModObj
+3	4	Modifier,Entity	O
+4	1	Entity,Entity	O
+4	2	Entity,Action	O
+4	3	Entity,Modifier	O
+
+This domain currently resolves to 118.99.60.142 .
+
+The domain info [ .
+
+] flnet [ .
+
+] org also resolved to this IP address on 2014-02-12 .
+
+The info [ .
+
+] flnet [ .
+
+] org domain overlaps with icybin [ .
+
+] flnet [ .
+
+] org and book [ .
+
+] flnet [ .
+
+] org via the previous resolutions to the following IP addresses : We previously observed Gh0stRat samples with the custom packet flag '' HTTPS '' calling back to book [ . ] flnet [ . ] org and icybin [ . ] flnet [ . ] org .
+0	1	TOKEN0,Entity	O
+0	2	TOKEN0,Action	O
+0	3	TOKEN0,Modifier	O
+1	2	Entity,Action	SubjAction
+1	2	Entity,Action	O
+1	3	Entity,Modifier	O
+1	4	Entity,Entity	O
+2	1	Action,Entity	ActionObj
+2	3	Action,Modifier	ActionMod
+2	4	Action,Entity	O
+3	1	Modifier,Entity	O
+3	4	Modifier,Entity	ModObj
+3	4	Modifier,Entity	O
+4	1	Entity,Entity	O
+4	2	Entity,Action	O
+4	3	Entity,Modifier	O
+
+The threat actor responsible for Operation DeputyDog also used the '' HTTPS '' version of the Gh0st .
+
+We also observed another '' HTTPS '' Gh0st variant connecting to a related command and control server at me [ . ] scieron [ . ] com .
+0	1	TOKEN0,Entity	O
+0	2	TOKEN0,Action	O
+0	3	TOKEN0,Modifier	O
+1	2	Entity,Action	SubjAction
+1	2	Entity,Action	O
+1	3	Entity,Modifier	O
+1	4	Entity,Entity	O
+2	1	Action,Entity	ActionObj
+2	3	Action,Modifier	ActionMod
+2	4	Action,Entity	O
+3	1	Modifier,Entity	O
+3	4	Modifier,Entity	ModObj
+3	4	Modifier,Entity	O
+4	1	Entity,Entity	O
+4	2	Entity,Action	O
+4	3	Entity,Modifier	O
+
+The me [ .
+
+] scieron [ .
+
+] com domain previously resolved to 58.64.199.22 .
+
+The book [ .
+
+] flnet [ .
+
+] org domain also resolved to another IP in the same subnet 58.64.199.0/24 .
+
+Specifically , book [ .
+
+] flnet [ .
+
+] org previously resolved to 58.64.199.27 .
+
+Others domain seen resolving to this same /24 subnet were dll [ .
+
+] freshdns [ .
+
+] org , ali [ .
+
+] blankchair [ .
+
+] com , and cht [ .
+
+] blankchair [ .
+
+] com .
+
+The domain dll [ .
+
+] freshdns [ .
+
+] org resolved to 58.64.199.25 .
+
+Both ali [ .
+
+] blankchair [ .
+
+] com and cht [ .
+
+] blankchair [ .
+
+] com resolved to 58.64.199.22 .
+
+A number of other related domains resolve to these IPs and other IPs also in this /24 subnet .
+
+For the purposes of this blog , we 've chosen to focus on those domains and IP that relate to the previously discussed DeputyDog and Ephemeral Hydra campaigns .
+
+You may recall that dll [ . ] freshdns [ . ] org , ali [ . ] blankchair [ . ] com and cht [ . ] blankchair [ . ] com were all linked to both Operation DeputyDog and Operation Ephemeral Hydra .
+0	1	TOKEN0,Entity	O
+0	2	TOKEN0,Action	O
+0	3	TOKEN0,Modifier	O
+1	2	Entity,Action	SubjAction
+1	2	Entity,Action	O
+1	3	Entity,Modifier	O
+1	4	Entity,Entity	O
+2	1	Action,Entity	ActionObj
+2	3	Action,Modifier	ActionMod
+2	4	Action,Entity	O
+3	1	Modifier,Entity	O
+3	4	Modifier,Entity	ModObj
+3	4	Modifier,Entity	O
+4	1	Entity,Entity	O
+4	2	Entity,Action	O
+4	3	Entity,Modifier	O
+
+Figure 1 illustrates the infrastructure overlaps and connections we observed between the strategic Web compromise campaign leveraging the VFW 's website , the DeputyDog , and the Ephemeral Hydra operations .
+
+Other tradecraft similarities between the actor ( s ) responsible for this campaign and the actor ( s ) responsible for the DeputyDog/Ephemeral Hydra campaigns include : We observed many similarities from the exploitation side as well .
+
+At a high level , this attack and the CVE- 2013-3163 attack both leveraged a Flash file that orchestrated the exploit , and would call back into IE JavaScript to trigger an IE flaw .
+
+The code within the Flash files from each attack are extremely similar .
+
+They build ROP chains and shellcode the same way , both choose to corrupt a Flash Vector object , have some identical functions with common typos , and even share the same name .
+0	1	TOKEN0,Entity	O
+0	2	TOKEN0,Action	O
+1	2	Entity,Action	SubjAction
+1	2	Entity,Action	O
+1	3	Entity,Entity	O
+2	1	Action,Entity	ActionObj
+2	3	Action,Entity	O
+3	1	Entity,Entity	O
+3	2	Entity,Action	O
+
+These actors have previously targeted a number of different industries , including : The proven ability to successfully deploy a number of different private and public RATs using zero-day exploits against high-profile targets likely indicates that this actor ( s ) will continue to operate in the mid to long-term .
+0	1	TOKEN0,Action	O
+0	2	TOKEN0,Entity	O
+0	3	TOKEN0,Modifier	O
+0	4	TOKEN0,Entity	O
+0	5	TOKEN0,Modifier	O
+0	6	TOKEN0,Entity	O
+0	7	TOKEN0,Entity	O
+1	2	Action,Entity	ActionObj
+1	3	Action,Modifier	O
+1	4	Action,Entity	O
+1	5	Action,Modifier	O
+1	6	Action,Entity	O
+1	7	Action,Entity	O
+2	1	Entity,Action	O
+2	3	Entity,Modifier	O
+2	4	Entity,Entity	O
+2	5	Entity,Modifier	O
+2	6	Entity,Entity	O
+2	7	Entity,Entity	O
+3	1	Modifier,Action	O
+3	4	Modifier,Entity	ModObj
+3	4	Modifier,Entity	O
+3	5	Modifier,Modifier	O
+3	6	Modifier,Entity	O
+3	7	Modifier,Entity	O
+4	1	Entity,Action	O
+4	2	Entity,Entity	O
+4	3	Entity,Modifier	O
+4	5	Entity,Modifier	O
+4	6	Entity,Entity	O
+4	7	Entity,Entity	O
+5	1	Modifier,Action	O
+5	2	Modifier,Entity	O
+5	3	Modifier,Modifier	O
+5	6	Modifier,Entity	ModObj
+5	6	Modifier,Entity	O
+5	7	Modifier,Entity	O
+6	1	Entity,Action	O
+6	2	Entity,Entity	O
+6	3	Entity,Modifier	O
+6	4	Entity,Entity	O
+6	5	Entity,Modifier	O
+6	7	Entity,Entity	O
+7	1	Entity,Action	O
+7	2	Entity,Entity	O
+7	3	Entity,Modifier	O
+7	4	Entity,Entity	O
+7	5	Entity,Modifier	O
+7	6	Entity,Entity	O
+
+This entry was posted in Advanced Malware , Exploits , Targeted Attack , Threat Research , Vulnerabilities and tagged 0day , zero-day by Darien Kindlund , Dan Caselden , Xiaobo Chen , Ned Moran and Mike Scott .
+
+Bookmark the permalink .
+
+
+
+Context Information Security distribute Context Threat Intelligence ( CTI ) reporting under the Traffic Light Protocol ( TLP ) , a method of classifying a document in order to promote the distribution of sensitive information between individuals , organisations or communities in a controlled and trusted way , based on the originator 's wishes .
+
+The various levels of the TLP are represented by the following colours : Sources may use TLP : RED when information can not be effectively acted upon by additional parties , and could lead to impacts on a party 's privacy , reputation , or operations if misused .
+
+Recipients may not share TLP : RED information with any parties outside of the specific exchange , meeting , or conversation in which it is originally disclosed .
+
+TLP : RED information will be passed verbally or in person .
+
+Sources may use TLP : AMBER when information requires support to be effectively acted upon , but carries risks to privacy , reputation , or operations if shared outside of the organisations involved .
+
+Recipients may only share TLP : AMBER information with members of their own organisation who need to know , and only as widely as necessary to act on that information .
+
+Sources may use TLP : GREEN when information is useful for the awareness of all participating organisations as well as with peers within the broader community or sector .
+
+Recipients may share TLP : GREEN information with peers and partner organisations within their sector or community , but not via publicly accessible channels such as publication or posting publicly on the Internet .
+
+Sources may use TLP : WHITE when information carries minimal or no foreseeable risk of misuse , in accordance with applicable rules and procedures for public release .
+
+Subject to standard copyright rules , TLP : WHITE information may be distributed freely , without restriction .
+
+On 2nd January 2014 a Systems Administrator at the Monju fast breeder reactor facility in Japan noticed suspicious connections emanating from a machine in the control room , coinciding with what was a seemingly routine software update to a free media player .
+
+Among other items , staff training documents and more than 40,000 emails were stored on the machine and thought to be harvested by the attacker .
+0	1	TOKEN0,Entity	O
+0	2	TOKEN0,Action	O
+1	2	Entity,Action	SubjAction
+1	2	Entity,Action	O
+1	3	Entity,Entity	O
+2	1	Action,Entity	ActionObj
+2	3	Action,Entity	O
+3	1	Entity,Entity	O
+3	2	Entity,Action	O
+
+The Japanese Atomic Energy Agency is investigating further .
+
+The attack appears to have been the result of the attackers having compromised the 'GOM Player ' update server and having it act as a 'watering hole ' , meaning that machines which access the site are delivered malware .
+0	1	TOKEN0,Entity	O
+0	2	TOKEN0,Action	O
+0	3	TOKEN0,Entity	O
+0	4	TOKEN0,Entity	O
+0	5	TOKEN0,Action	O
+0	6	TOKEN0,Entity	O
+0	7	TOKEN0,Entity	O
+0	8	TOKEN0,Action	O
+1	2	Entity,Action	SubjAction
+1	2	Entity,Action	O
+1	3	Entity,Entity	O
+1	4	Entity,Entity	O
+1	5	Entity,Action	O
+1	6	Entity,Entity	O
+1	7	Entity,Entity	O
+1	8	Entity,Action	O
+1	9	Entity,Entity	O
+2	1	Action,Entity	ActionObj
+2	3	Action,Entity	ActionObj
+2	4	Action,Entity	O
+2	5	Action,Action	O
+2	6	Action,Entity	O
+2	7	Action,Entity	O
+2	8	Action,Action	O
+2	9	Action,Entity	O
+3	1	Entity,Entity	O
+3	2	Entity,Action	O
+3	4	Entity,Entity	O
+3	5	Entity,Action	O
+3	6	Entity,Entity	O
+3	7	Entity,Entity	O
+3	8	Entity,Action	O
+3	9	Entity,Entity	O
+4	1	Entity,Entity	O
+4	2	Entity,Action	O
+4	5	Entity,Action	SubjAction
+4	5	Entity,Action	O
+4	6	Entity,Entity	O
+4	7	Entity,Entity	O
+4	8	Entity,Action	O
+4	9	Entity,Entity	O
+5	1	Action,Entity	O
+5	2	Action,Action	O
+5	3	Action,Entity	O
+5	4	Action,Entity	ActionObj
+5	6	Action,Entity	ActionObj
+5	7	Action,Entity	O
+5	8	Action,Action	O
+5	9	Action,Entity	O
+6	1	Entity,Entity	O
+6	2	Entity,Action	O
+6	3	Entity,Entity	O
+6	4	Entity,Entity	O
+6	5	Entity,Action	O
+6	7	Entity,Entity	O
+6	8	Entity,Action	O
+6	9	Entity,Entity	O
+7	1	Entity,Entity	O
+7	2	Entity,Action	O
+7	3	Entity,Entity	O
+7	4	Entity,Entity	O
+7	5	Entity,Action	O
+7	8	Entity,Action	SubjAction
+7	8	Entity,Action	O
+7	9	Entity,Entity	O
+8	1	Action,Entity	O
+8	2	Action,Action	O
+8	3	Action,Entity	O
+8	4	Action,Entity	O
+8	5	Action,Action	O
+8	6	Action,Entity	O
+8	7	Action,Entity	ActionObj
+8	9	Action,Entity	O
+9	1	Entity,Entity	O
+9	2	Entity,Action	O
+9	3	Entity,Entity	O
+9	4	Entity,Entity	O
+9	5	Entity,Action	O
+9	6	Entity,Entity	O
+9	7	Entity,Entity	O
+9	8	Entity,Action	O
+
+Gom Player originates in South Korea and in some parts of Asia it is a popular alternative to Windows Media Player .
+
+It is unclear whether every machine trying to download an update received this malware or whether only machines which fitted a certain profile were infected .
+
+Technical analysis of the implant on the compromised machine has shown it to be a variant of a Trojan which has been in the wild for some years now and continues to be effective .
+0	1	TOKEN0,Entity	O
+0	2	TOKEN0,Action	O
+1	2	Entity,Action	SubjAction
+1	2	Entity,Action	O
+1	3	Entity,Entity	O
+2	1	Action,Entity	ActionObj
+2	3	Action,Entity	O
+3	1	Entity,Entity	O
+3	2	Entity,Action	O
+
+The 'Gh0st RAT ' has been used extensively in attacks linked to the Chinese state , though it is important to remember that the code is publicly available and can be modified and used by anyone .
+
+The targeting of a Japanese nuclear facility however , is consistent with Chinese state intelligence requirements .
+
+If this is the work of a Chinese group then we feel the targeting may go much further than the Civil Nuclear sector and thus be of interest to the wider Energy Sector and industry as a whole .
+
+In order to inform the Energy Sector and beyond about this attack , we have compiled a technical summary of the attack and have provided a number of Indicators Of Compromise ( IOCs ) which can be used to aid detection .
+
+It is likely that the attackers would redeploy their implant against other targets , albeit with a delivery mechanism more tailored to the location of the intended victims .
+
+Based on open source reporting , it appears that the intrusion took place via the compromise of the GOM Player update server ( app.gomlab.com ) , where attackers may have gained entry via a PHP-based webshell , hidden within an image , present on the host since October 2011 .
+0	1	TOKEN0,Action	O
+0	2	TOKEN0,Entity	O
+0	3	TOKEN0,Entity	O
+0	4	TOKEN0,Action	O
+0	5	TOKEN0,Entity	O
+0	6	TOKEN0,Modifier	O
+0	7	TOKEN0,Entity	O
+1	2	Action,Entity	ActionObj
+1	3	Action,Entity	O
+1	4	Action,Action	O
+1	5	Action,Entity	O
+1	6	Action,Modifier	O
+1	7	Action,Entity	O
+2	1	Entity,Action	O
+2	3	Entity,Entity	O
+2	4	Entity,Action	O
+2	5	Entity,Entity	O
+2	6	Entity,Modifier	O
+2	7	Entity,Entity	O
+3	1	Entity,Action	O
+3	4	Entity,Action	SubjAction
+3	4	Entity,Action	O
+3	5	Entity,Entity	O
+3	6	Entity,Modifier	O
+3	7	Entity,Entity	O
+4	1	Action,Action	O
+4	2	Action,Entity	O
+4	3	Action,Entity	ActionObj
+4	5	Action,Entity	ActionObj
+4	6	Action,Modifier	O
+4	7	Action,Entity	O
+5	1	Entity,Action	O
+5	2	Entity,Entity	O
+5	3	Entity,Entity	O
+5	4	Entity,Action	O
+5	6	Entity,Modifier	O
+5	7	Entity,Entity	O
+6	1	Modifier,Action	O
+6	2	Modifier,Entity	O
+6	3	Modifier,Entity	O
+6	4	Modifier,Action	O
+6	7	Modifier,Entity	ModObj
+6	7	Modifier,Entity	O
+7	1	Entity,Action	O
+7	2	Entity,Entity	O
+7	3	Entity,Entity	O
+7	4	Entity,Action	O
+7	5	Entity,Entity	O
+7	6	Entity,Modifier	O
+
+The observed malicious activity relates to the modification of a file that controls GOM Player updates , spanning the date range 27th December 2013 to 16th January 2014 , during which time these alterations are reported to have only manifested themselves for visitors on certain IP ranges ; evidence supporting this claim has not yet been made public .
+0	1	TOKEN0,Entity	O
+0	2	TOKEN0,Action	O
+0	3	TOKEN0,Entity	O
+0	4	TOKEN0,Modifier	O
+1	2	Entity,Action	SubjAction
+1	2	Entity,Action	O
+1	3	Entity,Entity	O
+1	4	Entity,Modifier	O
+1	5	Entity,Entity	O
+2	1	Action,Entity	ActionObj
+2	3	Action,Entity	ActionObj
+2	4	Action,Modifier	O
+2	5	Action,Entity	O
+3	1	Entity,Entity	O
+3	2	Entity,Action	O
+3	4	Entity,Modifier	O
+3	5	Entity,Entity	O
+4	1	Modifier,Entity	O
+4	2	Modifier,Action	O
+4	5	Modifier,Entity	ModObj
+4	5	Modifier,Entity	O
+5	1	Entity,Entity	O
+5	2	Entity,Action	O
+5	3	Entity,Entity	O
+5	4	Entity,Modifier	O
+
+If this was indeed the case , then the nature of this attack is certainly more targeted than one that would cover the entire userbase of the GOM Player product , with victims comprising of the Japanese Government in addition to those at the Monju nuclear facility .
+
+The modified file redirected the GOM Player update process to another compromised server ( www.fudousankaitori.jp ( 203.189.101.35 ) ) , where a file containing both the legitimate update and the malware was deliver to the victim .
+0	1	TOKEN0,Entity	O
+0	2	TOKEN0,Action	O
+0	3	TOKEN0,Modifier	O
+1	2	Entity,Action	SubjAction
+1	2	Entity,Action	O
+1	3	Entity,Modifier	O
+1	4	Entity,Entity	O
+2	1	Action,Entity	ActionObj
+2	3	Action,Modifier	ActionMod
+2	4	Action,Entity	O
+3	1	Modifier,Entity	O
+3	4	Modifier,Entity	ModObj
+3	4	Modifier,Entity	O
+4	1	Entity,Entity	O
+4	2	Entity,Action	O
+4	3	Entity,Modifier	O
+
+Deployed to the system via a compressed bundle containing the official GOM Player setup binary and a self-extracting RAR archive containing the malicious files , the malware consists of a number of individual pieces .
+0	1	TOKEN0,Action	O
+0	2	TOKEN0,Modifier	O
+0	3	TOKEN0,Entity	O
+0	4	TOKEN0,Modifier	O
+0	5	TOKEN0,Entity	O
+1	2	Action,Modifier	ActionMod
+1	3	Action,Entity	O
+1	4	Action,Modifier	O
+1	5	Action,Entity	O
+2	3	Modifier,Entity	ModObj
+2	3	Modifier,Entity	O
+2	4	Modifier,Modifier	O
+2	5	Modifier,Entity	O
+3	1	Entity,Action	O
+3	2	Entity,Modifier	O
+3	4	Entity,Modifier	O
+3	5	Entity,Entity	O
+4	1	Modifier,Action	O
+4	2	Modifier,Modifier	O
+4	5	Modifier,Entity	ModObj
+4	5	Modifier,Entity	O
+5	1	Entity,Action	O
+5	2	Entity,Modifier	O
+5	3	Entity,Entity	O
+5	4	Entity,Modifier	O
+
+Upon extraction from the RAR archive , the installer component ( 0ae82fd94836815a1e8d284ccb75109d ) is automatically launched alongside the GOM Player update , distracting victims from the malicious activity taking place .
+0	1	TOKEN0,Entity	O
+0	2	TOKEN0,Action	O
+0	3	TOKEN0,Modifier	O
+1	2	Entity,Action	SubjAction
+1	2	Entity,Action	O
+1	3	Entity,Modifier	O
+1	4	Entity,Entity	O
+2	1	Action,Entity	ActionObj
+2	3	Action,Modifier	ActionMod
+2	4	Action,Entity	O
+3	1	Modifier,Entity	O
+3	4	Modifier,Entity	ModObj
+3	4	Modifier,Entity	O
+4	1	Entity,Entity	O
+4	2	Entity,Action	O
+4	3	Entity,Modifier	O
+
+The installer component is referred to by the author as 'miansha ' which , according to an East Asia Cyber Threat Intelligence Researcher , is likely Miǎnshā ( 免杀 ) , a phrase commonly used by People 's Republic of China ( PRC ) hackers to mean 'anti Antivirus detection ' or 'Antivirus avoidance ' ; Symantec have named the detection for this code 'Backdoor.Miancha ' , where Miǎnchá ( 免查 , likely shorthand for 免杀查 ) similarly means 'Antivirus avoidance ' .
+0	1	TOKEN0,Entity	O
+0	2	TOKEN0,Action	O
+0	3	TOKEN0,Entity	O
+0	4	TOKEN0,Entity	O
+0	5	TOKEN0,Action	O
+1	2	Entity,Action	SubjAction
+1	2	Entity,Action	O
+1	3	Entity,Entity	O
+1	4	Entity,Entity	O
+1	5	Entity,Action	O
+1	6	Entity,Entity	O
+2	1	Action,Entity	ActionObj
+2	3	Action,Entity	ActionObj
+2	4	Action,Entity	O
+2	5	Action,Action	O
+2	6	Action,Entity	O
+3	1	Entity,Entity	O
+3	2	Entity,Action	O
+3	4	Entity,Entity	O
+3	5	Entity,Action	O
+3	6	Entity,Entity	O
+4	1	Entity,Entity	O
+4	2	Entity,Action	O
+4	5	Entity,Action	SubjAction
+4	5	Entity,Action	O
+4	6	Entity,Entity	O
+5	1	Action,Entity	O
+5	2	Action,Action	O
+5	3	Action,Entity	O
+5	4	Action,Entity	ActionObj
+5	6	Action,Entity	O
+6	1	Entity,Entity	O
+6	2	Entity,Action	O
+6	3	Entity,Entity	O
+6	4	Entity,Entity	O
+6	5	Entity,Action	O
+
+The installer is responsible for the malware persistence mechanism , adding entries to the registry in the following locations , depending on Windows Version : The installer will also determine the system architecture ( 32- or 64-bit ) and then deobfuscate the relevant loader DLL to the path 'C : \Windows\temp\install.ocx ' , ensuring the malware is launched on system start-up .
+0	1	TOKEN0,Entity	O
+0	2	TOKEN0,Action	O
+0	3	TOKEN0,Entity	O
+0	4	TOKEN0,Action	O
+0	5	TOKEN0,Entity	O
+0	6	TOKEN0,Modifier	O
+0	7	TOKEN0,Entity	O
+0	8	TOKEN0,Modifier	O
+0	9	TOKEN0,Entity	O
+0	10	TOKEN0,Entity	O
+0	11	TOKEN0,Action	O
+0	12	TOKEN0,Entity	O
+0	13	TOKEN0,Action	O
+0	14	TOKEN0,Entity	O
+0	15	TOKEN0,Action	O
+1	2	Entity,Action	SubjAction
+1	2	Entity,Action	O
+1	3	Entity,Entity	O
+1	4	Entity,Action	O
+1	5	Entity,Entity	O
+1	6	Entity,Modifier	O
+1	7	Entity,Entity	O
+1	8	Entity,Modifier	O
+1	9	Entity,Entity	O
+1	10	Entity,Entity	O
+1	11	Entity,Action	O
+1	12	Entity,Entity	O
+1	13	Entity,Action	O
+1	14	Entity,Entity	O
+1	15	Entity,Action	O
+1	16	Entity,Entity	O
+2	1	Action,Entity	ActionObj
+2	3	Action,Entity	ActionObj
+2	4	Action,Action	O
+2	5	Action,Entity	O
+2	6	Action,Modifier	O
+2	7	Action,Entity	O
+2	8	Action,Modifier	O
+2	9	Action,Entity	O
+2	10	Action,Entity	O
+2	11	Action,Action	O
+2	12	Action,Entity	O
+2	13	Action,Action	O
+2	14	Action,Entity	O
+2	15	Action,Action	O
+2	16	Action,Entity	O
+3	1	Entity,Entity	O
+3	4	Entity,Action	SubjAction
+3	4	Entity,Action	O
+3	5	Entity,Entity	O
+3	6	Entity,Modifier	O
+3	7	Entity,Entity	O
+3	8	Entity,Modifier	O
+3	9	Entity,Entity	O
+3	10	Entity,Entity	O
+3	11	Entity,Action	O
+3	12	Entity,Entity	O
+3	13	Entity,Action	O
+3	14	Entity,Entity	O
+3	15	Entity,Action	O
+3	16	Entity,Entity	O
+4	1	Action,Entity	O
+4	2	Action,Action	O
+4	3	Action,Entity	ActionObj
+4	5	Action,Entity	ActionObj
+4	6	Action,Modifier	O
+4	7	Action,Entity	O
+4	8	Action,Modifier	O
+4	9	Action,Entity	O
+4	10	Action,Entity	O
+4	11	Action,Action	O
+4	12	Action,Entity	O
+4	13	Action,Action	O
+4	14	Action,Entity	O
+4	15	Action,Action	O
+4	16	Action,Entity	O
+5	1	Entity,Entity	O
+5	2	Entity,Action	O
+5	3	Entity,Entity	O
+5	4	Entity,Action	O
+5	6	Entity,Modifier	O
+5	7	Entity,Entity	O
+5	8	Entity,Modifier	O
+5	9	Entity,Entity	O
+5	10	Entity,Entity	O
+5	11	Entity,Action	O
+5	12	Entity,Entity	O
+5	13	Entity,Action	O
+5	14	Entity,Entity	O
+5	15	Entity,Action	O
+5	16	Entity,Entity	O
+6	1	Modifier,Entity	O
+6	2	Modifier,Action	O
+6	3	Modifier,Entity	O
+6	4	Modifier,Action	O
+6	7	Modifier,Entity	ModObj
+6	7	Modifier,Entity	O
+6	8	Modifier,Modifier	O
+6	9	Modifier,Entity	O
+6	10	Modifier,Entity	O
+6	11	Modifier,Action	O
+6	12	Modifier,Entity	O
+6	13	Modifier,Action	O
+6	14	Modifier,Entity	O
+6	15	Modifier,Action	O
+6	16	Modifier,Entity	O
+7	1	Entity,Entity	O
+7	2	Entity,Action	O
+7	3	Entity,Entity	O
+7	4	Entity,Action	O
+7	5	Entity,Entity	O
+7	6	Entity,Modifier	O
+7	8	Entity,Modifier	O
+7	9	Entity,Entity	O
+7	10	Entity,Entity	O
+7	11	Entity,Action	O
+7	12	Entity,Entity	O
+7	13	Entity,Action	O
+7	14	Entity,Entity	O
+7	15	Entity,Action	O
+7	16	Entity,Entity	O
+8	1	Modifier,Entity	O
+8	2	Modifier,Action	O
+8	3	Modifier,Entity	O
+8	4	Modifier,Action	O
+8	5	Modifier,Entity	O
+8	6	Modifier,Modifier	O
+8	9	Modifier,Entity	ModObj
+8	9	Modifier,Entity	O
+8	10	Modifier,Entity	O
+8	11	Modifier,Action	O
+8	12	Modifier,Entity	O
+8	13	Modifier,Action	O
+8	14	Modifier,Entity	O
+8	15	Modifier,Action	O
+8	16	Modifier,Entity	O
+9	1	Entity,Entity	O
+9	2	Entity,Action	O
+9	3	Entity,Entity	O
+9	4	Entity,Action	O
+9	5	Entity,Entity	O
+9	6	Entity,Modifier	O
+9	7	Entity,Entity	O
+9	8	Entity,Modifier	O
+9	10	Entity,Entity	O
+9	11	Entity,Action	O
+9	12	Entity,Entity	O
+9	13	Entity,Action	O
+9	14	Entity,Entity	O
+9	15	Entity,Action	O
+9	16	Entity,Entity	O
+10	1	Entity,Entity	O
+10	2	Entity,Action	O
+10	3	Entity,Entity	O
+10	4	Entity,Action	O
+10	5	Entity,Entity	O
+10	6	Entity,Modifier	O
+10	7	Entity,Entity	O
+10	8	Entity,Modifier	O
+10	11	Entity,Action	SubjAction
+10	11	Entity,Action	O
+10	12	Entity,Entity	O
+10	13	Entity,Action	O
+10	14	Entity,Entity	O
+10	15	Entity,Action	O
+10	16	Entity,Entity	O
+11	1	Action,Entity	O
+11	2	Action,Action	O
+11	3	Action,Entity	O
+11	4	Action,Action	O
+11	5	Action,Entity	O
+11	6	Action,Modifier	O
+11	7	Action,Entity	O
+11	8	Action,Modifier	O
+11	9	Action,Entity	O
+11	10	Action,Entity	ActionObj
+11	12	Action,Entity	ActionObj
+11	13	Action,Action	O
+11	14	Action,Entity	O
+11	15	Action,Action	O
+11	16	Action,Entity	O
+12	1	Entity,Entity	O
+12	2	Entity,Action	O
+12	3	Entity,Entity	O
+12	4	Entity,Action	O
+12	5	Entity,Entity	O
+12	6	Entity,Modifier	O
+12	7	Entity,Entity	O
+12	8	Entity,Modifier	O
+12	9	Entity,Entity	O
+12	10	Entity,Entity	O
+12	13	Entity,Action	SubjAction
+12	13	Entity,Action	O
+12	14	Entity,Entity	O
+12	15	Entity,Action	O
+12	16	Entity,Entity	O
+13	1	Action,Entity	O
+13	2	Action,Action	O
+13	3	Action,Entity	O
+13	4	Action,Action	O
+13	5	Action,Entity	O
+13	6	Action,Modifier	O
+13	7	Action,Entity	O
+13	8	Action,Modifier	O
+13	9	Action,Entity	O
+13	10	Action,Entity	O
+13	11	Action,Action	O
+13	12	Action,Entity	ActionObj
+13	14	Action,Entity	ActionObj
+13	15	Action,Action	O
+13	16	Action,Entity	O
+14	1	Entity,Entity	O
+14	2	Entity,Action	O
+14	3	Entity,Entity	O
+14	4	Entity,Action	O
+14	5	Entity,Entity	O
+14	6	Entity,Modifier	O
+14	7	Entity,Entity	O
+14	8	Entity,Modifier	O
+14	9	Entity,Entity	O
+14	10	Entity,Entity	O
+14	11	Entity,Action	O
+14	12	Entity,Entity	O
+14	15	Entity,Action	SubjAction
+14	15	Entity,Action	O
+14	16	Entity,Entity	O
+15	1	Action,Entity	O
+15	2	Action,Action	O
+15	3	Action,Entity	O
+15	4	Action,Action	O
+15	5	Action,Entity	O
+15	6	Action,Modifier	O
+15	7	Action,Entity	O
+15	8	Action,Modifier	O
+15	9	Action,Entity	O
+15	10	Action,Entity	O
+15	11	Action,Action	O
+15	12	Action,Entity	O
+15	13	Action,Action	O
+15	14	Action,Entity	ActionObj
+15	16	Action,Entity	O
+16	1	Entity,Entity	O
+16	2	Entity,Action	O
+16	3	Entity,Entity	O
+16	4	Entity,Action	O
+16	5	Entity,Entity	O
+16	6	Entity,Modifier	O
+16	7	Entity,Entity	O
+16	8	Entity,Modifier	O
+16	9	Entity,Entity	O
+16	10	Entity,Entity	O
+16	11	Entity,Action	O
+16	12	Entity,Entity	O
+16	13	Entity,Action	O
+16	14	Entity,Entity	O
+16	15	Entity,Action	O
+
+Oddly , this file is padded with null bytes , resulting in a 25 megabyte file .
+
+The main implant code is stored in files named instructions.pdf and instructions64.pdf ; not PDF documents but instead DLLs obfuscated with a one-byte XOR with 0x14 , similar to the malware loader DLLs .
+0	1	TOKEN0,Entity	O
+0	2	TOKEN0,Action	O
+0	3	TOKEN0,Modifier	O
+1	2	Entity,Action	SubjAction
+1	2	Entity,Action	O
+1	3	Entity,Modifier	O
+1	4	Entity,Entity	O
+2	1	Action,Entity	ActionObj
+2	3	Action,Modifier	ActionMod
+2	4	Action,Entity	O
+3	1	Modifier,Entity	O
+3	4	Modifier,Entity	ModObj
+3	4	Modifier,Entity	O
+4	1	Entity,Entity	O
+4	2	Entity,Action	O
+4	3	Entity,Modifier	O
+
+The loader , referred to by the malware author as 壳 ( shell ) , reads and deobfuscates the main implant code which then communicates with the attacker-controlled server at testqweasd.tk ( 211.43.220.89 ) on TCP port 443 .
+0	1	TOKEN0,Entity	O
+0	2	TOKEN0,Action	O
+0	3	TOKEN0,Action	O
+0	4	TOKEN0,Entity	O
+0	5	TOKEN0,Action	O
+0	6	TOKEN0,Modifier	O
+0	7	TOKEN0,Entity	O
+0	8	TOKEN0,Modifier	O
+1	2	Entity,Action	SubjAction
+1	2	Entity,Action	O
+1	3	Entity,Action	O
+1	4	Entity,Entity	O
+1	5	Entity,Action	O
+1	6	Entity,Modifier	O
+1	7	Entity,Entity	O
+1	8	Entity,Modifier	O
+1	9	Entity,Entity	O
+2	1	Action,Entity	ActionObj
+2	3	Action,Action	O
+2	4	Action,Entity	O
+2	5	Action,Action	O
+2	6	Action,Modifier	O
+2	7	Action,Entity	O
+2	8	Action,Modifier	O
+2	9	Action,Entity	O
+3	1	Action,Entity	ActionObj
+3	2	Action,Action	O
+3	4	Action,Entity	ActionObj
+3	5	Action,Action	O
+3	6	Action,Modifier	O
+3	7	Action,Entity	O
+3	8	Action,Modifier	O
+3	9	Action,Entity	O
+4	1	Entity,Entity	O
+4	2	Entity,Action	O
+4	5	Entity,Action	SubjAction
+4	5	Entity,Action	O
+4	6	Entity,Modifier	O
+4	7	Entity,Entity	O
+4	8	Entity,Modifier	O
+4	9	Entity,Entity	O
+5	1	Action,Entity	O
+5	2	Action,Action	O
+5	3	Action,Action	O
+5	4	Action,Entity	ActionObj
+5	6	Action,Modifier	ActionMod
+5	7	Action,Entity	O
+5	8	Action,Modifier	O
+5	9	Action,Entity	O
+6	1	Modifier,Entity	O
+6	2	Modifier,Action	O
+6	3	Modifier,Action	O
+6	4	Modifier,Entity	O
+6	7	Modifier,Entity	ModObj
+6	7	Modifier,Entity	O
+6	8	Modifier,Modifier	O
+6	9	Modifier,Entity	O
+7	1	Entity,Entity	O
+7	2	Entity,Action	O
+7	3	Entity,Action	O
+7	4	Entity,Entity	O
+7	5	Entity,Action	O
+7	6	Entity,Modifier	O
+7	8	Entity,Modifier	O
+7	9	Entity,Entity	O
+8	1	Modifier,Entity	O
+8	2	Modifier,Action	O
+8	3	Modifier,Action	O
+8	4	Modifier,Entity	O
+8	5	Modifier,Action	O
+8	6	Modifier,Modifier	O
+8	9	Modifier,Entity	ModObj
+8	9	Modifier,Entity	O
+9	1	Entity,Entity	O
+9	2	Entity,Action	O
+9	3	Entity,Action	O
+9	4	Entity,Entity	O
+9	5	Entity,Action	O
+9	6	Entity,Modifier	O
+9	7	Entity,Entity	O
+9	8	Entity,Modifier	O
+
+The main implant code is referred to as 白加黑 ( 'Black on White ' ) , a term used in the PRC hacking community to denote the act of Antivirus avoidance through the loading of malicious 'black ' code via non-malicious or trusted 'white ' code .
+0	1	TOKEN0,Entity	O
+0	2	TOKEN0,Action	O
+1	2	Entity,Action	SubjAction
+1	2	Entity,Action	O
+1	3	Entity,Entity	O
+2	1	Action,Entity	ActionObj
+2	3	Action,Entity	O
+3	1	Entity,Entity	O
+3	2	Entity,Action	O
+
+This is a practice recently illustrated through the deployment of the PlugX trojan , utilising DLL load order hijacking alongside a signed ( trusted ) executable .
+0	1	TOKEN0,Entity	O
+0	2	TOKEN0,Action	O
+0	3	TOKEN0,Modifier	O
+1	2	Entity,Action	SubjAction
+1	2	Entity,Action	O
+1	3	Entity,Modifier	O
+1	4	Entity,Entity	O
+2	1	Action,Entity	ActionObj
+2	3	Action,Modifier	ActionMod
+2	4	Action,Entity	O
+3	1	Modifier,Entity	O
+3	4	Modifier,Entity	ModObj
+3	4	Modifier,Entity	O
+4	1	Entity,Entity	O
+4	2	Entity,Action	O
+4	3	Entity,Modifier	O
+
+Analysis of this malware revealed it to be a variant of the Gh0st RAT , often used by Chinese actors ( including those who are state-motivated or directly state-sponsored ) .
+
+This specific variant shows similarities to that used during the VOHO campaign , where Gh0st RAT was spread via watering hole attacks utilising vulnerable websites belonging to financial services and technology companies .
+0	1	TOKEN0,Entity	O
+0	2	TOKEN0,Action	O
+0	3	TOKEN0,Modifier	O
+1	2	Entity,Action	SubjAction
+1	2	Entity,Action	O
+1	3	Entity,Modifier	O
+1	4	Entity,Entity	O
+2	1	Action,Entity	ActionObj
+2	3	Action,Modifier	ActionMod
+2	4	Action,Entity	O
+3	1	Modifier,Entity	O
+3	4	Modifier,Entity	ModObj
+3	4	Modifier,Entity	O
+4	1	Entity,Entity	O
+4	2	Entity,Action	O
+4	3	Entity,Modifier	O
+
+Specifically , the initial five bytes of the communications ( often used to denote a campaign or victim ) are 'HTTPS ' , amended from the original 'Gh0st ' ; the same as the traffic produced by the VOHO Gh0st variant .
+
+In addition to delivering system-specific details back to the attacker , Gh0st RAT provides the capability to deploy additional malware , enabling the harvesting of sensitive data and enabling the further propagation throughout the infected network .
+0	1	TOKEN0,Action	O
+0	2	TOKEN0,Entity	O
+0	3	TOKEN0,Modifier	O
+0	4	TOKEN0,Entity	O
+0	5	TOKEN0,Action	O
+0	6	TOKEN0,Entity	O
+0	7	TOKEN0,Action	O
+0	8	TOKEN0,Entity	O
+0	9	TOKEN0,Action	O
+0	10	TOKEN0,Entity	O
+1	2	Action,Entity	ActionObj
+1	3	Action,Modifier	O
+1	4	Action,Entity	O
+1	5	Action,Action	O
+1	6	Action,Entity	O
+1	7	Action,Action	O
+1	8	Action,Entity	O
+1	9	Action,Action	O
+1	10	Action,Entity	O
+2	1	Entity,Action	O
+2	3	Entity,Modifier	O
+2	4	Entity,Entity	O
+2	5	Entity,Action	O
+2	6	Entity,Entity	O
+2	7	Entity,Action	O
+2	8	Entity,Entity	O
+2	9	Entity,Action	O
+2	10	Entity,Entity	O
+3	1	Modifier,Action	O
+3	4	Modifier,Entity	ModObj
+3	4	Modifier,Entity	O
+3	5	Modifier,Action	O
+3	6	Modifier,Entity	O
+3	7	Modifier,Action	O
+3	8	Modifier,Entity	O
+3	9	Modifier,Action	O
+3	10	Modifier,Entity	O
+4	1	Entity,Action	O
+4	2	Entity,Entity	O
+4	5	Entity,Action	SubjAction
+4	5	Entity,Action	O
+4	6	Entity,Entity	O
+4	7	Entity,Action	O
+4	8	Entity,Entity	O
+4	9	Entity,Action	O
+4	10	Entity,Entity	O
+5	1	Action,Action	O
+5	2	Action,Entity	O
+5	3	Action,Modifier	O
+5	4	Action,Entity	ActionObj
+5	6	Action,Entity	ActionObj
+5	7	Action,Action	O
+5	8	Action,Entity	O
+5	9	Action,Action	O
+5	10	Action,Entity	O
+6	1	Entity,Action	O
+6	2	Entity,Entity	O
+6	3	Entity,Modifier	O
+6	4	Entity,Entity	O
+6	7	Entity,Action	SubjAction
+6	7	Entity,Action	O
+6	8	Entity,Entity	O
+6	9	Entity,Action	O
+6	10	Entity,Entity	O
+7	1	Action,Action	O
+7	2	Action,Entity	O
+7	3	Action,Modifier	O
+7	4	Action,Entity	O
+7	5	Action,Action	O
+7	6	Action,Entity	ActionObj
+7	8	Action,Entity	ActionObj
+7	9	Action,Action	O
+7	10	Action,Entity	O
+8	1	Entity,Action	O
+8	2	Entity,Entity	O
+8	3	Entity,Modifier	O
+8	4	Entity,Entity	O
+8	5	Entity,Action	O
+8	6	Entity,Entity	O
+8	9	Entity,Action	SubjAction
+8	9	Entity,Action	O
+8	10	Entity,Entity	O
+9	1	Action,Action	O
+9	2	Action,Entity	O
+9	3	Action,Modifier	O
+9	4	Action,Entity	O
+9	5	Action,Action	O
+9	6	Action,Entity	O
+9	7	Action,Action	O
+9	8	Action,Entity	ActionObj
+9	10	Action,Entity	O
+10	1	Entity,Action	O
+10	2	Entity,Entity	O
+10	3	Entity,Modifier	O
+10	4	Entity,Entity	O
+10	5	Entity,Action	O
+10	6	Entity,Entity	O
+10	7	Entity,Action	O
+10	8	Entity,Entity	O
+10	9	Entity,Action	O
+
+ To enable rapid response , the following Snort signature can be deployed : Additionally , the following Yara signature should identify both encoded payloads and the active implant in memory :
 

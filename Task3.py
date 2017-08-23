@@ -7,11 +7,12 @@ import spacy
 nlp = spacy.load("en")
 
 
+# Manage imports above this line
+
 # TODO : Identify Subject and Object in a sentence, more specifically, identify the Subject, everything else are objects
 # !!! The Subject must be as part of the WHOLE SENTENCE, not just in the labelled tokens
+# Incase there are multiple subjects, it is the task of previous task(!) to identify multiple subjects as a single subject
 # achieving the above would make the task, an ease
-
-# Manage imports above this line
 
 def main():
     # Read the filesnames from doclist.txt and append .rel to the end
@@ -43,6 +44,7 @@ def main():
     label_phrase = []
     for sentence in sentences:
         combinations = []
+        combinations.append((0,sentence[-1]))
         label = ""
         buffer = ""
         for tokens in sentence[:-1]:
@@ -72,33 +74,66 @@ def main():
         if (len(combinations) > 0):
             label_phrase.append(combinations)
     # # pp.pprint(label_phrase)
-    # # print("\n", len(label_phrase), " token pairs")
-
-    # Play with the entity pairs, test some theories
+    print(len(label_phrase), " relevant sentences")
+    pp.pprint(label_phrase)
+    # Convert the entity pairs into the output format, also the processing format
     task3_out = []
     for j, entries in enumerate(label_phrase):
-        print("Relevant sentence ", j, " with ", len(entries), " entities")
-        for i, x in enumerate(entries):
-            print(0, x[0] + str(i + 1))
-    """
-    task3_out = []
-    for list_entries in label_phrase:
         temp = []
-        for i, x in enumerate(list_entries):
-            for j, y in enumerate(list_entries):
-                if (i == j):
-                    temp.append((0,j+1))
+        temp.append(entries[0])
+        for a, x in enumerate(entries[1:]):
+            temp.append((0, a + 1, "TOKEN0," + x[0], "O"))
+            for b, y in enumerate(entries[1:]):
+                if (a == b):
                     continue
-                temp.append((i+1,j+1))
+                else:
+                    temp.append((a + 1, b + 1, x[0] + "," + y[0], "O"))
         task3_out.append(temp)
-    task3_out = [[x for x in sorted(y,key=lambda x:x[0])]for y in task3_out]
-    with open("Entity_pair_sample.txt","w",encoding="UTF-8") as outfile:
-        for entries in task3_out:
-            for pairs in entries:
-                outfile.write(str(pairs[0])+"\t"+str(pairs[1])+"\n")
+    task3_out = [[x for x in sorted(y, key=lambda x: x[0])] for y in task3_out]
+
+    # Test some rules here for relation prediction
+    # RULES RULES RULES
+    # Maintain a sublist of labelled entities for each relevant sentence in task3_out
+    for i, sentences in enumerate(task3_out):
+        sublist = [x[2].split(",")[1] for x in sentences[1:] if x[0] == 0]
+        pp.pprint(sublist)
+        for j, pair in enumerate(sentences[1:]):
+            id1, id2, entity_pair, relation = pair
+            entity1, entity2 = entity_pair.split(",")
+            if (entity1 == "Modifier" and entity2 == "Entity" and int(id1) == int(id2) - 1):
+                relation = "ModObj"
+                task3_out[i][j] = (id1, id2, entity_pair, relation)
+            elif (entity1 == "Entity" and entity2 == "Action" and int(id1) < int(id2) and (
+                        int(id2) - int(id1)) in range(0, 2)):
+                relation = "SubjAction"
+                task3_out[i][j] = (id1, id2, entity_pair, relation)
+            elif (entity1 == "Action"):
+                for tempindex, subpair in enumerate(sentences[j:]):
+                    subid1, subid2, entity_entity_subpair, _ = subpair
+                    subentity1, subentity2 = entity_entity_subpair.split(",")
+                    if (subentity1 != entity1):
+                        break
+                    if (subentity2 == "Entity" and abs(int(subid2) - int(id1)) < 2):
+                        relation = "ActionObj"
+                        task3_out[i][j + tempindex] = (subid1, subid2, entity_entity_subpair, relation)
+                        break
+                    elif (subentity2 == "Action"):
+                        pass
+                    elif (subentity2 == "Modifier" and int(id1) < int(subid2) and abs(int(subid2) - int(id1)) < 2):
+                        relation = "ActionMod"
+                        task3_out[i][j + tempindex] = (subid1, subid2, entity_entity_subpair, relation)
+                        break
+
+    # Write the entityid, entityid, entity pair to file for visual inspection
+    with open("Entity_pair_sample.txt", "w", encoding="UTF-8") as outfile:
+        for lists in task3_out:
+            for entry in lists:
+                if(len(entry)==2):
+                    outfile.write(entry[1]+"\n")
+                    continue
+                outfile.write(str(entry[0]) + "\t" + str(entry[1]) + "\t" + entry[2] + "\t" + entry[3] + "\n")
             outfile.write("\n")
-        outfile.close()
-    """
+
     return 0  # End of main
 
 
