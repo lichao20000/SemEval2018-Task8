@@ -5,27 +5,41 @@ import re
 import spacy
 from nltk.stem import WordNetLemmatizer
 from nltk.stem import PorterStemmer
+from nltk.corpus import stopwords
 
+sw = stopwords.words("english")
 lem = WordNetLemmatizer()
 ps = PorterStemmer()
 nlp = spacy.load("en")
 
+
 # Manage imports above this line
-# TODO : Implement get_context_features and include it as part of get_attribute_id
+# Implement get_context_features (DONE)
+# and include it as part of get_attribute_id (DONE)
 def get_context_features(a_sentence):
     tokens = nlp(a_sentence)
+    features = []
     for token in tokens:
-        if(token.tag_.startswith("V") or token.tag_.startswith("N")):
-            print(token.text, token.lemma_, token.tag_)
-    return
+        if (token.tag_.startswith("V") or token.tag_.startswith("N") and token.lemma_ not in sw):
+            try:
+                features.append(re.match("^[a-zA-Z]*$", token.lemma_).group(0))
+            except AttributeError:
+                pass
+    return features
 
 
-def get_attribute_id(phrase, bucket):
+def get_attribute_id(phrase, bucket, contextual_features):
     id = "O"
     phrase = lem.lemmatize(phrase, "v")
+    global_max = 0
     for item in bucket:
-        if (phrase in item[3]):
+        relevance_count = 0
+        for keywords in item[3]:
+            if (keywords in contextual_features):
+                relevance_count += 1
+        if (relevance_count > global_max):
             id = str(item[0])
+            global_max = relevance_count
     return id
 
 
@@ -80,28 +94,28 @@ def main():
             pass
         elif (currentBucket == "ActionName"):
             _, att_no, att_name, att_desc, keyword_pair = entries
-            keywords = re.findall("[A-Za-z ]*", keyword_pair)
+            keywords = re.findall("[A-Za-z]*", keyword_pair)
             keywords = [x.lower() for x in keywords if x != ""]
             keywords = list(set(keywords))
             ActionName.append((int(att_no), att_name, att_desc, keywords))
 
         elif (currentBucket == "Capability"):
             _, att_no, att_name, att_desc, keyword_pair = entries
-            keywords = re.findall("[A-Za-z ]*", keyword_pair)
+            keywords = re.findall("[A-Za-z]*", keyword_pair)
             keywords = [x.lower() for x in keywords if x != ""]
             keywords = list(set(keywords))
             Capability.append((int(att_no), att_name, att_desc, keywords))
 
         elif (currentBucket == "StrategicObjectives"):
             _, att_no, att_name, att_desc, keyword_pair = entries
-            keywords = re.findall("[A-Za-z ]*", keyword_pair)
+            keywords = re.findall("[A-Za-z]*", keyword_pair)
             keywords = [x.lower() for x in keywords if x != ""]
             keywords = list(set(keywords))
             StrategicObjectives.append((int(att_no), att_name, att_desc, keywords))
 
         elif (currentBucket == "TacticalObjectives"):
             _, att_no, att_name, att_desc, keyword_pair = entries
-            keywords = re.findall("[A-Za-z ]*", keyword_pair)
+            keywords = re.findall("[A-Za-z]*", keyword_pair)
             keywords = [x.lower() for x in keywords if x != ""]
             keywords = list(set(keywords))
             TacticalObjectives.append((int(att_no), att_name, att_desc, keywords))
@@ -133,14 +147,15 @@ def main():
     print("\n")
 
     # Simple processing of each sentence
-    for Sentence, Annotations in zip(sentences[:1], annotations[:1]):
+    for Sentence, Annotations in zip(sentences, annotations):
         for Annotation in Annotations:
             if (Annotation[1] == "Action"):
-                print(get_context_features(Sentence))
-                action_name_id = get_attribute_id(Annotation[4], ActionName)
-                capability_id = get_attribute_id(Annotation[4], Capability)
-                strategic_objective_id = get_attribute_id(Annotation[4], StrategicObjectives)
-                tactical_objective_id = get_attribute_id(Annotation[4], TacticalObjectives)
+                action_name_id = get_attribute_id(Annotation[4], ActionName, get_context_features(Sentence))
+                capability_id = get_attribute_id(Annotation[4], Capability, get_context_features(Sentence))
+                strategic_objective_id = get_attribute_id(Annotation[4], StrategicObjectives,
+                                                          get_context_features(Sentence))
+                tactical_objective_id = get_attribute_id(Annotation[4], TacticalObjectives,
+                                                         get_context_features(Sentence))
                 try:
                     print(Sentence)
                     print(Annotation[0] + "\t" + Annotation[

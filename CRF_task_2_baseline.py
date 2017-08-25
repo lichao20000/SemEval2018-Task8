@@ -10,6 +10,8 @@ import sklearn_crfsuite
 from sklearn_crfsuite import metrics
 
 
+# TODO : Include Sentence classification(Task1) as Relevant(1) or Irrelevant(0) part of Task 2
+
 # Manage imports above this line
 
 def word2features(sent, i):
