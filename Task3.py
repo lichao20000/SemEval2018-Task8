@@ -44,7 +44,7 @@ def main():
     label_phrase = []
     for sentence in sentences:
         combinations = []
-        combinations.append((0,sentence[-1]))
+        combinations.append((0, sentence[-1]))
         label = ""
         buffer = ""
         for tokens in sentence[:-1]:
@@ -128,8 +128,8 @@ def main():
     with open("Entity_pair_sample.txt", "w", encoding="UTF-8") as outfile:
         for lists in task3_out:
             for entry in lists:
-                if(len(entry)==2):
-                    outfile.write(entry[1]+"\n")
+                if (len(entry) == 2):
+                    outfile.write(entry[1] + "\n")
                     continue
                 outfile.write(str(entry[0]) + "\t" + str(entry[1]) + "\t" + entry[2] + "\t" + entry[3] + "\n")
             outfile.write("\n")

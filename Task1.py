@@ -5,6 +5,7 @@ import re
 from nltk import ngrams
 from nltk.corpus import stopwords
 
+
 # Manage imports above this line
 
 def main():
@@ -42,20 +43,19 @@ def main():
 
     # For each sentence build ngrams of multiple order and
     # check for keyword match
-    for i,sentence in enumerate(sentences):
+    for i, sentence in enumerate(sentences):
         sentence = [x.lower() for x in sentence]
         tokens = []
         sentence_as_string = " ".join(sentence)
         print(sentence_as_string)
-        tokens.extend(list(ngrams(sentence_as_string.split(),n=1)))
-        tokens.extend(list(ngrams(sentence_as_string.split(),n=2)))
-        tokens.extend(list(ngrams(sentence_as_string.split(),n=3)))
+        tokens.extend(list(ngrams(sentence_as_string.split(), n=1)))
+        tokens.extend(list(ngrams(sentence_as_string.split(), n=2)))
+        tokens.extend(list(ngrams(sentence_as_string.split(), n=3)))
         tokens = set([" ".join(x) for x in tokens if x not in stopword])
         for ngram in tokens:
-            if(ngram in keywords):
-                print(i,ngram)
+            if (ngram in keywords):
+                print(i, ngram)
                 pass
-
 
     return 0  # End of main
 
