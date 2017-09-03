@@ -2,16 +2,13 @@ import os
 import sys
 import matplotlib.pyplot as plt
 import time
+import MultiLabelSplitter as splt
 import pprint as pp
-from collections import Counter
-from time import perf_counter
 
 plt.style.use('ggplot')
 
 import sklearn_crfsuite
 from sklearn_crfsuite import metrics
-from sklearn.model_selection import RandomizedSearchCV
-from sklearn.model_selection import GridSearchCV
 
 
 # TODO : Include Sentence classification(Task1) as Relevant(1) or Irrelevant(0) part of Task 2
@@ -25,25 +22,16 @@ def word2features(sent, i):
     features = {
         # 'bias': 1.0,
         'word': word,
-        'word_position': i,
-        'length': len(word),
         'word.lower()': word.lower(),
         'word[-3:]': word[-3:],
-        'word[:3': word[:3],
-        # 'word[-2:]': word[-2:],
-        # 'word.isupper()': word.isupper(),
-        # 'word.istitle()': word.istitle(),
-        # 'word.isdigit()': word.isdigit(),
+        'word[-2:]': word[-2:],
+        'word.isupper()': word.isupper(),
+        'word.istitle()': word.istitle(),
+        'word.isdigit()': word.isdigit(),
         'postag': postag,
-        # 'postag[:2]': postag[:2],
+        'postag[:2]': postag[:2],
     }
-    if (sent[i - 1][1].startswith("VB")):
-        features.update({
-            "follows_verb": True,
-            "previous_verb":sent[i-1][1]
-        })
-    # Additional features, used in sklearn tutorial
-    """
+
     if i > 0:
         word1 = sent[i - 1][0]
         postag1 = sent[i - 1][1]
@@ -69,7 +57,7 @@ def word2features(sent, i):
         })
     else:
         features['EOS'] = True
-    """
+
     return features
 
 
@@ -85,6 +73,11 @@ def sent2labels(sent):
 def sent2tokens(sent):
     # return [token for token, postag, onehot, label in sent]
     return [token for token, postag, label in sent]
+
+
+def multilabel_transform(alist):
+    for entries in alist:
+        print(entries)
 
 
 def main():
@@ -137,24 +130,49 @@ def main():
     X_test = [sent2features(sentence) for sentence in training_sentences[int(len(training_sentences) * .80):]]
     Y_test = [sent2labels(sentence) for sentence in training_sentences[int(len(training_sentences) * .80):]]
 
+    # Change the labels into a multi label format
+    # Or split them into to lists, for two single label classifiers, whatever
+    Y_train_boundaries, Y_train_labels = splt.split_labels_transform(Y_train)
+    Y_test_boundaries, Y_test_labels = splt.split_labels_transform(Y_test)
+    # Quick check length of training and test lists
+    # print(len(X_train),len(X_test),len(Y_train),len(Y_test))
+
     # Build CRF and fit train data
     print("Fit training data")
     start_time = time.time()
-    crf = sklearn_crfsuite.CRF(
+    boundary_crf = sklearn_crfsuite.CRF(
         algorithm='lbfgs',
         c1=0.1,
         c2=0.1,
         max_iterations=100,
         all_possible_transitions=True,
-        # verbose = True
-    )  #
-    # Fit the data directly, or perform a RandomSearchCV for hyperparameters
-    crf.fit(X_train, Y_train)
+    )  # verbose=True
+    print("Fittings boundaries")
+    boundary_crf.fit(X_train, Y_train_boundaries)
+    label_crf = sklearn_crfsuite.CRF(
+        algorithm='lbfgs',
+        c1=0.1,
+        c2=0.1,
+        max_iterations=100,
+        all_possible_transitions=True,
+    )  # verbose=True
+    print("Fitting labels")
+    label_crf.fit(X_train, Y_train_labels)
+
     # Evaluation
-    labels = list(crf.classes_)
-    labels.remove('O')
-    print(labels)
-    y_pred = crf.predict(X_test)
+    boundary_labels = list(boundary_crf.classes_)
+    label_labels = list(label_crf.classes_)
+    boundary_labels.remove("O")
+    label_labels.remove("O")
+
+    boundary_y_pred = boundary_crf.predict(X_test)
+    label_y_pred = label_crf.predict(X_test)
+
+    y_pred = splt.combine_labels(boundary_y_pred, label_y_pred)
+    labels = list(set([x for y in y_pred for x in y]))
+    labels.remove("O")
+    # Metrics follows
+
     metrics.flat_f1_score(Y_test, y_pred,
                           average='weighted', labels=labels)
     sorted_labels = sorted(
@@ -166,34 +184,17 @@ def main():
     ))
     print("Running time : ", time.time() - start_time)
 
-    # View classifier learnt transitions
-    def print_transitions(trans_features):
-        for (label_from, label_to), weight in trans_features:
-            print("%-6s -> %-7s %0.6f" % (label_from, label_to, weight))
-
-    print("\nTop likely transitions:")
-    print_transitions(Counter(crf.transition_features_).most_common(20))
-
-    results = crf.predict(X_test)
-    """
-    # Check state features
-    def print_state_features(state_features):
-        for (attr, label), weight in state_features:
-            print("%0.6f %-8s %s" % (weight, label, attr))
-
-    print("\nTop positive:")
-    print_state_features(Counter(crf.state_features_).most_common(30))
-
-    print("\nTop negative:")
-    print_state_features(Counter(crf.state_features_).most_common()[-30:])
-    """
-
-    # Write the prediction to file
+    boundary_results = boundary_crf.predict(X_test)
+    label_results = label_crf.predict(X_test)
+    results = splt.combine_labels(boundary_results, label_results)
     print("Writing results to file")
     outfile = open("Predict_out.txt", "w", encoding="UTF-8")
+
     for x, y in zip([[x[0] for x in y] for y in training_sentences[int(len(training_sentences) * .80):]], results):
+
         for x1, y1 in zip(x, y):
             outfile.write(x1 + "\t" + y1 + "\n")
+
     outfile.close()
 
     return 0  # End of main
