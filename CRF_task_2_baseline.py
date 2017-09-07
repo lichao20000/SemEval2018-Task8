@@ -6,6 +6,8 @@ import pprint as pp
 from collections import Counter
 from time import perf_counter
 
+import LabelTransform
+
 plt.style.use('ggplot')
 
 import sklearn_crfsuite
@@ -30,6 +32,8 @@ def word2features(sent, i):
         'word.lower()': word.lower(),
         'word[-3:]': word[-3:],
         'word[:3': word[:3],
+        'istitle': word.istitle(),
+        'isplural':True if word[-1].lower() is "s" else False,
         # 'word[-2:]': word[-2:],
         # 'word.isupper()': word.isupper(),
         # 'word.istitle()': word.istitle(),
@@ -40,7 +44,7 @@ def word2features(sent, i):
     if (sent[i - 1][1].startswith("VB")):
         features.update({
             "follows_verb": True,
-            "previous_verb":sent[i-1][1]
+            "previous_verb": sent[i - 1][1]
         })
     # Additional features, used in sklearn tutorial
     """
@@ -137,6 +141,11 @@ def main():
     X_test = [sent2features(sentence) for sentence in training_sentences[int(len(training_sentences) * .80):]]
     Y_test = [sent2labels(sentence) for sentence in training_sentences[int(len(training_sentences) * .80):]]
 
+    # Try multiple encoding schemes for target labels,
+    # the LabelTransforms work fine
+    # Y_train_BILOUencoded = LabelTransform.convertToBILOU(Y_train)
+    # Y_train_BIOencoded = LabelTransform.convertToBIO(Y_train_BILOUencoded)
+
     # Build CRF and fit train data
     print("Fit training data")
     start_time = time.time()
@@ -175,7 +184,7 @@ def main():
     print_transitions(Counter(crf.transition_features_).most_common(20))
 
     results = crf.predict(X_test)
-    """
+
     # Check state features
     def print_state_features(state_features):
         for (attr, label), weight in state_features:
@@ -186,7 +195,7 @@ def main():
 
     print("\nTop negative:")
     print_state_features(Counter(crf.state_features_).most_common()[-30:])
-    """
+
 
     # Write the prediction to file
     print("Writing results to file")
@@ -196,9 +205,31 @@ def main():
             outfile.write(x1 + "\t" + y1 + "\n")
     outfile.close()
 
-    return 0  # End of main
+    return crf
+    # End of main
+
+
+def get_sentences(list_of_words):
+    sentences = []
+    buffer = []
+    counter = 0
+    for word in list_of_words:
+        if (word[0] == "\n"):
+            sentences.append(buffer)
+            buffer = []
+            continue
+        buffer.append(word)
+    print(len(sentences), " sentences found in test input")
+    return sentences
+
+
+def predict_test_input(crf, test_file):
+    words = open(test_file, encoding="UTF-8", errors="replace").readlines()
+    sentences = get_sentences(words)
 
 
 if __name__ == '__main__':
-    status = main()
-    sys.exit(status)
+    crf = main()
+    test_file = "SemEval_input/Task1and2-input"
+    predict_test_input(crf, test_file)
+    sys.exit(0)
