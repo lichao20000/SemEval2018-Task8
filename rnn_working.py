@@ -3,6 +3,7 @@ import sys
 import numpy as np
 import tensorflow as tf
 
+from progressbar import ProgressBar
 from nltk import FreqDist
 from datetime import datetime
 from sklearn.preprocessing import LabelEncoder
@@ -11,6 +12,7 @@ from Tools import print_iterable
 
 TRAIN_FILE = "Train.csv"
 W2V_EMBEDDINGS = "MalwareText.bin"
+PROGRESSBAR = ProgressBar()
 
 
 # Manage imports above this line
@@ -68,13 +70,7 @@ def get_embeddings(np_array_of_sentences):
                 # Word not found in embeddings, so assigning an array of zeros
                 embedding = np.zeros(shape=(50), dtype=np.float32)
                 buffer.append(embedding)
-        if (len(buffer) < 100):
-            while (len(buffer) < 100):
-                buffer.append(np.zeros(shape=(50), dtype=np.float32))
-        if (len(buffer) > 100):
-            buffer = []
-            continue
-        X.append(np.array(buffer))
+        X.extend(np.array(buffer))
         buffer = []
     X_len = len(X)
     return np.asarray(X[:int(X_len * 0.8)], dtype=np.float32), np.asarray(X[int(X_len * 0.8):], dtype=np.float32)
@@ -98,13 +94,7 @@ def encode_labels(sentence_labels):
             else:
                 classes[label] = len(classes.keys())
                 buffer.append(classes[label])
-        if (len(buffer) > 100):
-            buffer = []
-            continue
-        if (len(buffer) < 100):
-            while (len(buffer) < 100):
-                buffer.append(classes["O"])
-        labels.append(np.array(buffer))
+        labels.extend(np.array(buffer))
         buffer = []
     return np.array(labels), classes
 
@@ -132,35 +122,12 @@ def main():
     train_sequence_length = np.array(sequence_length_vector[:len(sequence_length_vector) * 80], dtype=np.int32)
     val_sequence_length = np.array(sequence_length_vector[len(sequence_length_vector) * 80:], dtype=np.int32)
 
-    # TODO: PREPROCESSING and NN CONSTRUCTION PHASE
-    # Build a vocabulary of all the words,lemmas,pre,suf,pos tags ... for the embedding layer
-    # For words and lemmas, also substitute the integers with X, using str.translate(map)
-    """
-    word_vocab = vocabularize(training_samples=X_train, index_in_tuple=1)
-    word_vocab = substitute_integers(vocab=word_vocab)
-
-    lemma_vocab = vocabularize(training_samples=X_train, index_in_tuple=2)
-    lemma_vocab = substitute_integers(vocab=lemma_vocab)
-
-    pos_vocab = vocabularize(training_samples=X_train, index_in_tuple=3)
-
-    prefix_vocab = vocabularize(training_samples=X_train, index_in_tuple=4)
-
-    suffix_vocab = vocabularize(training_samples=X_train, index_in_tuple=5)
-
-    print("\nCategorical column base statistics")
-    len_fmt = "|{:^15}  |  {:^15}  |  {:^15}  |  {:^15}  |  {:^15}|"
-    print("-" * 97)
-    print(len_fmt.format("WordCount", "LemmaCount", "POS-Count", "PrefixCount", "SuffixCount"))
-    print(len_fmt.format(len(word_vocab), len(lemma_vocab), len(pos_vocab), len(prefix_vocab), len(suffix_vocab)))
-    print("-" * 97)
-    """
     sentence_length_counter = FreqDist([len(sentence) for sentence in X_train])
     print("\nFreqDist of length of sentences and their frequency")
     print(sorted(sentence_length_counter.most_common(100), key=lambda x: x[0], reverse=True))
 
+    # TODO : Construct the RNN model
     """
-    TODO : Construct the RNN model
     Define the RNN model here
     """
 
@@ -171,22 +138,21 @@ def main():
 
     # Parameters
     n_inputs = 50
-    n_steps = 100
-    n_neurons = 300
-    batch_size = 100
+    n_steps = 1
+    n_neurons = 100
     n_outputs = len(classes.keys())  # {B,I}-{Entity,Action,Modifier} and O
     n_layers = 1  # Start of with 1 layer for trial
     learning_rate = 0.001
 
     # Creating the computation graph
     # seq_length = tf.placeholder(dtype=tf.int32, shape=[None])
-    X = tf.placeholder(shape=[None, batch_size, n_steps, n_inputs], dtype=tf.float32)
-    Y = tf.placeholder(shape=[None, None], dtype=tf.int32)
+    X = tf.placeholder(shape=[None, n_steps, n_inputs], dtype=tf.float32)
+    Y = tf.placeholder(shape=[None], dtype=tf.int32)
 
     # Layers in the computattion graph
     simple_cell = tf.contrib.rnn.BasicRNNCell(num_units=n_neurons, activation=tf.nn.relu)
-    layers = [tf.contrib.rnn.BasicRNNCell(num_units=n_neurons, activation=tf.nn.relu) for layer in range(n_layers)]
-    multi_layer_cell = tf.contrib.rnn.MultiRNNCell(layers)
+    # layers = [tf.contrib.rnn.BasicRNNCell(num_units=n_neurons, activation=tf.nn.relu) for layer in range(n_layers)]
+    # multi_layer_cell = tf.contrib.rnn.MultiRNNCell(layers)
     outputs, states = tf.nn.dynamic_rnn(cell=simple_cell, inputs=X, dtype=tf.float32)  # , sequence_length=seq_length
     logits = tf.layers.dense(states, n_outputs)
     xentropy = tf.nn.sparse_softmax_cross_entropy_with_logits(labels=Y, logits=logits)
@@ -210,24 +176,31 @@ def main():
     config.log_device_placement = True
 
     # Time to test the graph
-    n_epochs = 10
+    n_epochs = 100
+
     print("Running Session")
     with tf.Session(config=config) as sess:
         sess.run(init)
 
-        for epoch in range(n_epochs):
+        for epoch in PROGRESSBAR(range(n_epochs)):
             # Start saving after an initial test run
-            # if(epoch%2==0): # Checkpoint every 10 epochs, but its a long shot, so save every time
-            #    save_path = saver.save(sess=sess,save_path=logdir+"rnn_model.ckpt")
-            for step in range(0,len(X_train),100):
+            for step in range(0, len(X_train), 500):
+                X_train_batch = X_train[step:step + 500].reshape((-1, 1, 50))
+                Y_train_batch = Y_train[step:step + 500]
+                if (epoch % 50 == 0):  # Checkpoint every 10 epochs, but its a long shot, so save every time
+                    summary_str = accuracy_summary.eval(
+                        feed_dict={X: X_train.reshape((-1, 1, 50)), Y: Y_train})
+                    summary_step = epoch*268+step
+                    file_writer.add_summary(summary_str,summary_step)
                 sess.run(training_op,
-                         feed_dict={X: X_train[step:step+100],
-                                    Y: Y_train[step]})  # , seq_length: train_sequence_length
-        acc_train = accuracy.eval(feed_dict={X: X_train, Y: Y_train})  # , seq_length: train_sequence_length
-        acc_test = accuracy.eval(feed_dict={X: X_val, Y: Y_val})  # , seq_length: val_sequence_length
+                         feed_dict={X: X_train_batch, Y: Y_train_batch})  # , seq_length: train_sequence_length
+        acc_train = accuracy.eval(
+            feed_dict={X: X_train.reshape((-1, 1, 50)), Y: Y_train})
+        acc_test = accuracy.eval(
+            feed_dict={X: X_val.reshape((-1, 1, 50)), Y: Y_val})  # , seq_length: val_sequence_length
         print(epoch, "Train accuracy:", acc_train, " Test accuracy:", acc_test)
         save_path = saver.save(sess=sess, save_path=logdir + "rnn_model_final.ckpt")
-    # Run for 10 epochs
+    # Run for 100 epochs
 
 
     return 0  # End of main

@@ -7,7 +7,6 @@ from Tools import print_iterable
 
 NLP = spacy.load("en")
 
-
 # Manage imports above this line
 def process_sentences(sentences_list):
     processsed_sentences_list = []
@@ -46,7 +45,6 @@ def main():
         SENTENCES.extend(buffer)
     SENTENCES = [x.strip() for x in SENTENCES if x != "\n"]
     SENTENCES = process_sentences(SENTENCES)
-    print_iterable.print_iterable(SENTENCES[0])
 
     print("Writing ", len(SENTENCES), " to file")
     with open("Corpora.txt", "w", encoding="UTF-8") as outfile:
