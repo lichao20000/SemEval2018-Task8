@@ -41,6 +41,7 @@ def main():
     keywords = set(keywords)
     print(len(keywords), " keywords")
 
+    exit(0)
     # For each sentence build ngrams of multiple order and
     # check for keyword match
     for i, sentence in enumerate(sentences):

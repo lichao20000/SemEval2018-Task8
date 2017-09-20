@@ -164,46 +164,49 @@ def main():
 
     # Parameters
     n_inputs = 50
-    n_words = 100
+    n_steps = 100
     n_neurons = 300
     n_outputs = 100  # {B,I}-{Entity,Action,Modifier} and O
     n_layers = 1  # Start of with 1 layer for trial
-    n_batches = 10
-    batch_size = len(X) // n_batches
+    # n_batches = 10
+    # batch_size = len(X) // n_batches
     dropout = 0.2
     learning_rate = 0.001
 
     # Creating the computation graph
     # The input shape should be something like this
     # batch size, number of words in each sentence, feature vector size (word vector size)
-    x = tf.placeholder(shape=[None, n_words, n_inputs], dtype=tf.float32)
-    y = tf.placeholder(shape=[None, n_words], dtype=tf.int32)
+    x = tf.placeholder(shape=[None, n_steps, n_inputs], dtype=tf.float32)
+    y = tf.placeholder(shape=[None], dtype=tf.int32)
     # seq_length = tf.placeholder(shape=[None,n_words], dtype=tf.int32)
 
     # Layers in the computattion graph
     # For single layer NN
     simple_cell = tf.contrib.rnn.BasicRNNCell(num_units=n_neurons)  # , state_is_tuple=False # for LSTMcell
-    dropout_layer = tf.contrib.rnn.DropoutWrapper(simple_cell,input_keep_prob = dropout)
+    dropout_layer = tf.contrib.rnn.DropoutWrapper(simple_cell, input_keep_prob=dropout)
     # For deep NN
     layers = [tf.contrib.rnn.BasicRNNCell(num_units=n_neurons, activation=tf.nn.relu) for layer in
               range(n_layers)]  # , state_is_tuple=False # for LSTMCell
-    multi_layer_cell = tf.contrib.rnn.MultiRNNCell(layers,state_is_tuple=False)
+    multi_layer_cell = tf.contrib.rnn.MultiRNNCell(layers, state_is_tuple=False)
 
     # Hidden layer level
+    # outputs <--> im assuming is the state of the whole hidden network
+    # states <--> states is the state of each cell, ie the weight matrix, one assumes
     outputs, states = tf.nn.dynamic_rnn(cell=multi_layer_cell, inputs=x, dtype=tf.float32,
                                         time_major=True)  # , sequence_length=seq_length
-
+    print("Outputs : ", outputs)
+    print("States : ", states)
     # Dense output level
     logits = tf.layers.dense(states, n_outputs, activation=tf.nn.relu)
-
+    print("Logits : ", logits)
     # Classifier level
-    xentropy = tf.nn.sparse_softmax_cross_entropy_with_logits(labels=y[0, :], logits=logits)
-
+    xentropy = tf.nn.sparse_softmax_cross_entropy_with_logits(labels=y, logits=logits)
+    print("Xentropy : ", xentropy)
     # Metrics ops
     loss = tf.reduce_mean(xentropy)
     optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate)
     training_op = optimizer.minimize(loss=loss)
-    correct = tf.nn.in_top_k(predictions=logits, targets=y[0, :], k=1)
+    correct = tf.nn.in_top_k(predictions=logits, targets=y, k=1)
     accuracy = tf.reduce_mean(tf.cast(x=correct, dtype=tf.float32))
 
     # Initialise all global variables and the Saver
@@ -220,31 +223,33 @@ def main():
     # Time to test the graph
     n_epochs = 100
 
-    print("Running Session")
+    print("\nRunning Session")
     with tf.Session(config=config) as sess:
         sess.run(init)
 
         # Run for (n_epoch) epochs
         for epoch in PROGRESSBAR(range(n_epochs)):
             # Start saving after an initial test run
-            for step in range(0, len(X_train), batch_size):
-                X_next_batch = X_train[step:step + batch_size]  # .reshape((batch_size, n_words, 50))
-                Y_next_batch = Y_train[step:step + batch_size]  # .reshape((batch_size, n_words))
-                # seq_len_batch = seq_len[step:step + batch_size].reshape(batch_size,n_words)
+            for sentence in range(0, len(X_train)):
+                X_next_batch = X_train[sentence:sentence + 1]
+                Y_next_batch = Y_train[sentence]
                 if (epoch % 50 == 0):  # Checkpoint every 10 epochs, but its a long shot, so save every time
                     summary_str = accuracy_summary.eval(
                         feed_dict={x: X_next_batch, y: Y_next_batch})
-                    summary_step = epoch * n_batches + step
+                    summary_step = epoch * sentence + 1
                     file_writer.add_summary(summary_str, summary_step)
-
+                """
+                print("Y batch shape : ", X_next_batch.shape)
+                print("Y batch shape : ", Y_next_batch)
+                """
                 sess.run(training_op,
                          feed_dict={x: X_next_batch, y: Y_next_batch})  # , seq_length: train_sequence_length
-            acc_train = accuracy.eval(feed_dict={x: X_train, y: Y_train})
-            acc_test = accuracy.eval(
-                feed_dict={x: X_val, y: Y_val})  # , seq_length: val_sequence_length
-            print("\nEpoch : ",epoch," Train accuracy:", acc_train, " Test accuracy:", acc_test)
-            #if(acc_train>0.80 and acc_test>0.80):
-            #    break
+                acc_train = accuracy.eval(feed_dict={x: X_next_batch, y: Y_next_batch})
+                acc_test = accuracy.eval(
+                    feed_dict={x: X_next_batch, y: Y_next_batch})  # , seq_length: val_sequence_length
+                print("\nSentence : ", sentence, " Train accuracy:", acc_train, " Test accuracy:", acc_test)
+                # if(acc_train>0.80 and acc_test>0.80):
+                #    break
         save_path = saver.save(sess=sess, save_path=logdir + "rnn_model_final.ckpt")
         sess.close()
         exit(0)

@@ -41,6 +41,19 @@ def word2features(sent, i):
         'postag': postag,
         # 'postag[:2]': postag[:2],
     }
+    if(i==0 and len(sent)>1):
+        features.update({
+            'next_word':sent[i+1]
+        })
+    if(i>0 and i<(len(sent)-1)):
+        features.update({
+            'previous_word':sent[i-1],
+            'next_word':sent[i+1]
+        })
+    if(i==(len(sent)-1)):
+        features.update({
+            'previous_word':sent[i-1]
+        })
     if (sent[i - 1][1].startswith("VB")):
         features.update({
             "follows_verb": True,
@@ -161,7 +174,7 @@ def main():
     crf.fit(X_train, Y_train)
     # Evaluation
     labels = list(crf.classes_)
-    labels.remove('O')
+    #labels.remove('O')
     print(labels)
     y_pred = crf.predict(X_test)
     metrics.flat_f1_score(Y_test, y_pred,

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$USER_HOME$/PycharmProjects/TextExtraction/.idea/TextExtraction.iml" filepath="$USER_HOME$/PycharmProjects/TextExtraction/.idea/TextExtraction.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/SemEval2018-Task 8.iml" filepath="$PROJECT_DIR$/.idea/SemEval2018-Task 8.iml" />
     </modules>
   </component>
 </project>
