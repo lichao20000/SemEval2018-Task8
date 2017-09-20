@@ -537,13 +537,13 @@ This	O
 particular	O
 architecture	O
 relies	O
-on	B-Modifier
+on	O
 a	B-Entity
 kernel-mode	I-Entity
 driver	I-Entity
 to	O
 carry	B-Action
-out	I-Action
+out	B-Modifier
 the	B-Entity
 network	I-Entity
 communications	I-Entity
@@ -1436,7 +1436,7 @@ the	B-Entity
 traffic	I-Entity
 ,	O
 looking	B-Action
-for	B-Modifier
+for	I-Action
 and	I-Action
 then	I-Action
 parsing	I-Action
@@ -2122,7 +2122,7 @@ For	O
 example	O
 ,	O
 in	O
-HTTP	B-Action
+HTTP	O
 the	B-Entity
 driver	I-Entity
 will	O
@@ -2514,7 +2514,7 @@ provides	B-Action
 on-the-fly	B-Entity
 data	I-Entity
 encryption/decryption	I-Entity
-whenever	I-Entity
+whenever	B-Modifier
 that	B-Entity
 data	I-Entity
 is	B-Action
@@ -3167,7 +3167,7 @@ Windows	I-Entity
 Vista	I-Entity
 and	I-Entity
 above	I-Entity
-it	B-Entity
+it	I-Entity
 behaves	B-Action
 differently	O
 .	O
@@ -4220,7 +4220,7 @@ network	I-Entity
 reconnaissance	I-Entity
 tool	I-Entity
 .	O
-When	O
+When	B-Modifier
 run	B-Entity
 as	I-Entity
 a	I-Entity
@@ -4269,7 +4269,7 @@ the	B-Entity
 named	I-Entity
 pipes	I-Entity
 .	O
-It	B-Entity
+It	O
 then	O
 uses	O
 these	O
@@ -4841,7 +4841,7 @@ on	O
 par	O
 with	O
 Rustock	O
-rootkit	B-Entity
+rootkit	O
 -	O
 it	O
 uses	O
@@ -4898,7 +4898,7 @@ flexibility	O
 as	O
 possible	O
 .	O
-When	O
+When	B-Modifier
 most	B-Entity
 of	I-Entity
 the	I-Entity
@@ -5382,7 +5382,7 @@ accepts	B-Action
 new	B-Entity
 scan	I-Entity
 tasking	I-Entity
-when	I-Entity
+when	B-Modifier
 it	B-Entity
 connects	I-Entity
 to	I-Entity
@@ -6266,7 +6266,7 @@ $	I-Entity
 /delete	I-Entity
 ''	I-Entity
 .	O
-Once	B-Modifier
+Once	O
 the	B-Entity
 wiper	I-Entity
 has	O
@@ -10629,7 +10629,7 @@ module	I-Entity
 .	O
 This	B-Entity
 halted	I-Entity
-machinery	I-Entity
+machinery	O
 ,	O
 preventing	B-Action
 oil	B-Entity
@@ -11124,7 +11124,7 @@ worm	I-Entity
 to	O
 infect	B-Action
 computers	B-Entity
-whenever	B-Modifier
+whenever	B-Action
 the	B-Entity
 engineer	I-Entity
 exchanged	I-Entity
@@ -11639,8 +11639,8 @@ allowed	O
 them	O
 to	O
 move	B-Action
-on	I-Action
-to	B-Modifier
+on	B-Modifier
+to	I-Modifier
 other	B-Entity
 internal	I-Entity
 computers	I-Entity
@@ -12216,7 +12216,7 @@ the	O
 most	O
 common	O
 attack	O
-vectors	O
+vectors	B-Entity
 used	B-Action
 to	B-Modifier
 attack	B-Entity
@@ -13670,7 +13670,7 @@ inflict	O
 serious	O
 damage	O
 .	O
-They	O
+They	B-Entity
 may	O
 be	O
 able	O
@@ -16097,7 +16097,7 @@ again	O
 ,	O
 this	O
 time	O
-using	B-Modifier
+using	B-Action
 a	B-Entity
 different	I-Entity
 exploit	I-Entity
@@ -16154,7 +16154,7 @@ maliciously	I-Entity
 crafted	I-Entity
 version	I-Entity
 .	O
-Once	B-Modifier
+Once	O
 the	B-Entity
 victim	I-Entity
 installs	I-Entity
@@ -18467,7 +18467,7 @@ his	I-Entity
 or	I-Entity
 her	I-Entity
 system	I-Entity
-each	B-Modifier
+each	B-Action
 time	B-Entity
 the	I-Entity
 computer	I-Entity
@@ -18740,7 +18740,7 @@ a	O
 single	O
 task	O
 and	O
-communicating	O
+communicating	B-Action
 via	B-Modifier
 markers	B-Entity
 left	B-Action
@@ -18897,7 +18897,7 @@ query	I-Entity
 for	I-Entity
 windowsupdate.microsoft.com	I-Entity
 .	O
-It	B-Entity
+It	O
 then	O
 runs	B-Action
 rundl132	B-Entity
@@ -19097,8 +19097,8 @@ task	O
 and	O
 each	O
 communicating	O
-via	B-Modifier
-markers	B-Entity
+via	O
+markers	O
 dropped	B-Action
 in	B-Modifier
 the	B-Entity
@@ -19138,7 +19138,7 @@ malware	I-Entity
 resends	B-Action
 the	B-Entity
 information	I-Entity
-each	B-Modifier
+each	B-Action
 time	B-Entity
 the	I-Entity
 computer	I-Entity
@@ -20339,7 +20339,7 @@ example	O
 :	O
 The	B-Entity
 malware	I-Entity
-beacons	I-Entity
+beacons	B-Action
 location	B-Entity
 but	O
 does	O
@@ -21717,7 +21717,7 @@ of	O
 the	O
 backdoors	O
 .	O
-Once	B-Modifier
+Once	O
 the	B-Entity
 attackers	I-Entity
 obtain	B-Action
@@ -22372,8 +22372,8 @@ hole	I-Entity
 attacks	I-Entity
 .	O
 This	B-Entity
-takes	O
-advantage	B-Action
+takes	B-Action
+advantage	B-Entity
 of	B-Modifier
 social	B-Entity
 engineering	I-Entity
@@ -23387,7 +23387,7 @@ attackers	I-Entity
 were	O
 interested	O
 to	O
-find	O
+find	B-Action
 e-mails	B-Entity
 related	I-Entity
 to	I-Entity
@@ -24777,7 +24777,7 @@ result	O
 of	O
 the	B-Entity
 attackers	I-Entity
-having	B-Entity
+having	O
 compromised	B-Action
 the	B-Entity
 'GOM	I-Entity
@@ -29894,8 +29894,8 @@ In	O
 spring	O
 2014	O
 ,	O
-we	B-Entity
-observed	B-Action
+we	O
+observed	O
 a	B-Entity
 SFXRAR	I-Entity
 file	I-Entity
@@ -30791,8 +30791,8 @@ drive	I-Entity
 letter	I-Entity
 and	O
 search	O
-recursively	B-Entity
-for	B-Modifier
+recursively	O
+for	O
 files	B-Entity
 with	I-Entity
 the	I-Entity

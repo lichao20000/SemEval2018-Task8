@@ -1,19 +1,20 @@
 import os
 import sys
-import matplotlib.pyplot as plt
 import time
-import pprint as pp
 from collections import Counter
 from time import perf_counter
 
-import LabelTransform
+import spacy
+import pprint as pp
+import matplotlib.pyplot as plt
 
 plt.style.use('ggplot')
-
 import sklearn_crfsuite
 from sklearn_crfsuite import metrics
 from sklearn.model_selection import RandomizedSearchCV
 from sklearn.model_selection import GridSearchCV
+
+NLP = spacy.load("en")
 
 
 # TODO : Include Sentence classification(Task1) as Relevant(1) or Irrelevant(0) part of Task 2
@@ -25,7 +26,7 @@ def word2features(sent, i):
     postag = sent[i][1]
 
     features = {
-        # 'bias': 1.0,
+        'bias': 1.0,
         'word': word,
         'word_position': i,
         'length': len(word),
@@ -33,26 +34,28 @@ def word2features(sent, i):
         'word[-3:]': word[-3:],
         'word[:3': word[:3],
         'istitle': word.istitle(),
-        'isplural':True if word[-1].lower() is "s" else False,
-        # 'word[-2:]': word[-2:],
-        # 'word.isupper()': word.isupper(),
-        # 'word.istitle()': word.istitle(),
-        # 'word.isdigit()': word.isdigit(),
+        'isplural': True if word[-1].lower() is "s" else False,
+        'word.isupper()': word.isupper(),
+        'word.istitle()': word.istitle(),
+        'word.isdigit()': word.isdigit(),
         'postag': postag,
-        # 'postag[:2]': postag[:2],
     }
-    if(i==0 and len(sent)>1):
+    if (i == 0 and len(sent) > 1):
         features.update({
-            'next_word':sent[i+1]
+            'next_tag': sent[i + 1][1],
+            'next_word': sent[i + 1]
         })
-    if(i>0 and i<(len(sent)-1)):
+    if (i > 0 and i < (len(sent) - 1)):
         features.update({
-            'previous_word':sent[i-1],
-            'next_word':sent[i+1]
+            'previous_tag': sent[i - 1][1],
+            'previous_word': sent[i - 1],
+            'next_tag': sent[i + 1][1],
+            'next_word': sent[i + 1]
         })
-    if(i==(len(sent)-1)):
+    if (i == (len(sent) - 1)):
         features.update({
-            'previous_word':sent[i-1]
+            'previous_tag': sent[i - 1][1],
+            'previous_word': sent[i - 1]
         })
     if (sent[i - 1][1].startswith("VB")):
         features.update({
@@ -106,13 +109,13 @@ def sent2tokens(sent):
 
 def main():
     # Build training data from training files
-    # txtcbn_file_folder = "MalwareTextDB-1.0/data/ann+brown/"
     token_file_folder = "MalwareTextDB-1.0/data/tokenized/"
-    # files = [txtcbn_file_folder + filename.strip() for filename in os.listdir(txtcbn_file_folder)]
+    additional_training_files_folder = "data/tokenized/"
     files = [token_file_folder + filename.strip() for filename in os.listdir(token_file_folder)]
+    for file1 in os.listdir(additional_training_files_folder):
+        files.append(additional_training_files_folder + file1.strip())
     training_data = []
-    # print("Found ", len(files), " .txtcbn files with training data")
-    print("Found ", len(files), " .token files with training data")
+    print("\nFound ", len(files), " .token files with training data")
     training_sentences = []
     for file in files:
         training_data.append(("#", file))
@@ -125,13 +128,11 @@ def main():
                 continue
             training_data.append((entries.strip().split(" ")))
             temp.append((entries.strip().split(" ")))
-            # if (temp[-1][0] == "." and temp[-1][3] == "O"):
             if (temp[-1][0] == "." and temp[-1][2] == "O"):
                 training_sentences.append(temp)
                 temp = []
     print(len(training_data), " samples in training data")
     print(len(training_sentences), " sentences ")
-    # training_sentences = [[x for x in y if len(x) == 4] for y in training_sentences]
     training_sentences = [[x for x in y if len(x) == 3] for y in training_sentences]
 
     # Write training data, for visual purposes
@@ -154,13 +155,8 @@ def main():
     X_test = [sent2features(sentence) for sentence in training_sentences[int(len(training_sentences) * .80):]]
     Y_test = [sent2labels(sentence) for sentence in training_sentences[int(len(training_sentences) * .80):]]
 
-    # Try multiple encoding schemes for target labels,
-    # the LabelTransforms work fine
-    # Y_train_BILOUencoded = LabelTransform.convertToBILOU(Y_train)
-    # Y_train_BIOencoded = LabelTransform.convertToBIO(Y_train_BILOUencoded)
-
     # Build CRF and fit train data
-    print("Fit training data")
+    print("\nFit training data")
     start_time = time.time()
     crf = sklearn_crfsuite.CRF(
         algorithm='lbfgs',
@@ -172,10 +168,10 @@ def main():
     )  #
     # Fit the data directly, or perform a RandomSearchCV for hyperparameters
     crf.fit(X_train, Y_train)
+
     # Evaluation
     labels = list(crf.classes_)
-    #labels.remove('O')
-    print(labels)
+    # labels.remove('O')
     y_pred = crf.predict(X_test)
     metrics.flat_f1_score(Y_test, y_pred,
                           average='weighted', labels=labels)
@@ -186,7 +182,7 @@ def main():
     print(metrics.flat_classification_report(
         Y_test, y_pred, labels=sorted_labels, digits=3
     ))
-    print("Running time : ", time.time() - start_time)
+    print("\nRunning time : ", time.time() - start_time)
 
     # View classifier learnt transitions
     def print_transitions(trans_features):
@@ -209,10 +205,9 @@ def main():
     print("\nTop negative:")
     print_state_features(Counter(crf.state_features_).most_common()[-30:])
 
-
     # Write the prediction to file
-    print("Writing results to file")
-    outfile = open("Predict_out.txt", "w", encoding="UTF-8")
+    print("\nWriting results to file")
+    outfile = open("Predict_out", "w", encoding="UTF-8")
     for x, y in zip([[x[0] for x in y] for y in training_sentences[int(len(training_sentences) * .80):]], results):
         for x1, y1 in zip(x, y):
             outfile.write(x1 + "\t" + y1 + "\n")
@@ -231,18 +226,59 @@ def get_sentences(list_of_words):
             sentences.append(buffer)
             buffer = []
             continue
-        buffer.append(word)
-    print(len(sentences), " sentences found in test input")
+        buffer.append(word.strip())
+    print("\n", len(sentences), " sentences found in test input")
     return sentences
+
+
+def process_testfile(sentences):
+    sentenceslist = []
+    for sentence in sentences:
+        buffer = []
+        tokens = NLP(" ".join(sentence))
+        for token in tokens:
+            buffer.append([token.text, token.tag_])
+        sentenceslist.append(buffer)
+    return sentenceslist
 
 
 def predict_test_input(crf, test_file):
     words = open(test_file, encoding="UTF-8", errors="replace").readlines()
+    print("\nRetrieving test sentences from file")
     sentences = get_sentences(words)
+    sentences = process_testfile(sentences)
+    test_sentences = [sent2features(sent) for sent in sentences]
+
+    print("\nRunning predict on test data")
+    results = crf.predict(test_sentences)
+    print("\nWriting test results to file")
+    with open("Task2.out", "w", encoding="UTF-8") as outfile:
+        for x, y in zip([[x[0] for x in y] for y in sentences], results):
+            for x1, y1 in zip(x, y):
+                outfile.write(x1 + "\t" + y1 + "\n")
+        outfile.close()
+
+    # Visual inspection for Task 1 objective
+    labels = list(crf.classes_)
+    labels.remove("O")
+    counter = 0
+    with open("Task1.out", "w", encoding="UTF-8") as outfile:
+        for x, y in zip([[x[0] for x in y] for y in sentences], results):
+            for class1 in labels:
+                if (class1 in y):
+                    outfile.write("1\n")
+                    counter += 1
+                    break
+            else:
+                outfile.write("0\n")
+        outfile.close()
+    print("\nTask 1 results")
+    print(len(test_sentences), " sentences and ", counter, " relevant sentences")
+    return
 
 
 if __name__ == '__main__':
     crf = main()
-    test_file = "SemEval_input/Task1and2-input"
-    predict_test_input(crf, test_file)
+    TEST_FILE = "SemEval_input/Task1and2-input"
+    predict_test_input(crf, TEST_FILE)
     sys.exit(0)
